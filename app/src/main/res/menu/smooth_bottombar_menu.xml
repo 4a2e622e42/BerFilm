@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/homeFragment"
+        android:title="Home"
+        android:icon="@drawable/ic_home_icon"
+        android:enabled="true"
+        />
+    <item
+        android:id="@+id/moviesFragment"
+        android:title="Movies"
+        android:icon="@drawable/ic_movie_icon"
+        android:enabled="true"
+
+        />
+    <item
+        android:id="@+id/seriesFragment"
+        android:title="Series"
+        android:icon="@drawable/ic_series_icon"
+        android:enabled="true"
+
+        />
+    <item
+        android:id="@+id/favoritFragment"
+        android:title="Favorit"
+        android:icon="@drawable/ic_favorit_icon"
+        android:enabled="true"
+
+        />
+
+
+
+
+
+
+</menu>
