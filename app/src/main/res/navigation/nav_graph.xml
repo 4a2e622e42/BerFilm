@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/nav_graph">
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
 
 
-
-
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.ash.berfilm.HomeFragment.HomeFragment" />
+    <fragment
+        android:id="@+id/movieFragment"
+        android:name="com.ash.berfilm.MovieFragment.MovieFragment" />
+    <fragment
+        android:id="@+id/seriesFragment"
+        android:name="com.ash.berfilm.SeriesFragment.SeriesFragment" />
+    <fragment
+        android:id="@+id/favoriteFragment"
+        android:name="com.ash.berfilm.FavoriteFragment.FavoriteFragment" />
 </navigation>
