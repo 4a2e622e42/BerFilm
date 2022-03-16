@@ -22,6 +22,9 @@ import com.ash.berfilm.MainActivity;
 import com.ash.berfilm.R;
 import com.ash.berfilm.databinding.FragmentSereisBinding;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class SeriesFragment extends Fragment
 {
     FragmentSereisBinding fragmentSeriesBinding;

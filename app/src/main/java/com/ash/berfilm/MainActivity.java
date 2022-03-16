@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onNext(@NonNull Movie movie)
                     {
-
+                        appViewModel.insertTrending(movie);
                     }
 
                     @Override

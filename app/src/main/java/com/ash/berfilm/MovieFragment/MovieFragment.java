@@ -22,6 +22,9 @@ import com.ash.berfilm.MainActivity;
 import com.ash.berfilm.R;
 import com.ash.berfilm.databinding.FragmentMovieBinding;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class MovieFragment extends Fragment
 {
     FragmentMovieBinding fragmentMoviesBinding;
