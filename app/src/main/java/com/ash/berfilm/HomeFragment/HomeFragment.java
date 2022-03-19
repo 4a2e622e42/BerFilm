@@ -1,6 +1,10 @@
 package com.ash.berfilm.HomeFragment;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkRequest;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,19 +20,31 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.ash.berfilm.HomeFragment.Adopters.PopularAdopter;
+import com.ash.berfilm.HomeFragment.Adopters.TrendingAdopter;
 import com.ash.berfilm.MainActivity;
 import com.ash.berfilm.Models.MovieModel.Movie;
 import com.ash.berfilm.R;
-import com.ash.berfilm.RoomDb.Entity.TrendingEntity;
 import com.ash.berfilm.ViewModel.AppViewModel;
 import com.ash.berfilm.databinding.FragmentHomeBinding;
+import com.thecode.aestheticdialogs.AestheticDialog;
+import com.thecode.aestheticdialogs.DialogAnimation;
+import com.thecode.aestheticdialogs.DialogStyle;
+import com.thecode.aestheticdialogs.DialogType;
+
+import java.util.concurrent.TimeUnit;
+
+import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.Observer;
 import io.reactivex.rxjava3.core.Scheduler;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
@@ -42,6 +58,15 @@ public class HomeFragment extends Fragment
     MainActivity mainActivity;
     AppViewModel appViewModel;
     CompositeDisposable compositeDisposable;
+    TrendingAdopter trendingAdopter;
+    PopularAdopter popularAdopter;
+
+    @Inject
+    ConnectivityManager connectivityManager;
+    @Inject
+    NetworkRequest networkRequest;
+
+    AestheticDialog aestheticDialog;
 
     @Override
     public void onAttach(@NonNull Context context)
@@ -69,7 +94,7 @@ public class HomeFragment extends Fragment
 
 
 
-        getTrending();
+        checkConnection();
 
 
         return fragmentHomeBinding.getRoot();
@@ -107,24 +132,126 @@ public class HomeFragment extends Fragment
 
     }
 
-
     private void getTrending()
     {
-        Disposable disposable = appViewModel.getTrending()
+        Observable.interval(1, TimeUnit.MILLISECONDS)
+                .flatMap(n -> appViewModel.makeFutureCall().get())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<TrendingEntity>() {
+                .subscribe(new Observer<Movie>() {
                     @Override
-                    public void accept(TrendingEntity trendingEntity) throws Throwable
+                    public void onSubscribe(@io.reactivex.rxjava3.annotations.NonNull Disposable d)
                     {
-                        Movie trending = trendingEntity.getTrending();
-                        Log.e("TAG","Name:  "+trending.getResults().get(0).getOriginalTitle());
+                        compositeDisposable.add(d);
+                    }
+
+                    @Override
+                    public void onNext(@io.reactivex.rxjava3.annotations.NonNull Movie trending)
+                    {
+                        if(fragmentHomeBinding.trendingRecycleView.getAdapter() != null)
+                        {
+                            trendingAdopter = (TrendingAdopter) fragmentHomeBinding.trendingRecycleView.getAdapter();
+                            trendingAdopter.updateTrending(trending.getResults());
+
+                        }else
+                        {
+                            trendingAdopter = new TrendingAdopter(trending.getResults());
+                            fragmentHomeBinding.trendingRecycleView.setAdapter(trendingAdopter);
+
+                        }
+                    }
+
+                    @Override
+                    public void onError(@io.reactivex.rxjava3.annotations.NonNull Throwable e)
+                    {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
                     }
                 });
+    }
 
-        compositeDisposable.add(disposable);
+    private void getPopular()
+    {
+        Observable.interval(1, TimeUnit.MILLISECONDS)
+                .flatMap(n -> appViewModel.makePopularFutureCall().get())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Movie>() {
+                    @Override
+                    public void onSubscribe(@io.reactivex.rxjava3.annotations.NonNull Disposable d)
+                    {
+                        compositeDisposable.add(d);
+                    }
+
+                    @Override
+                    public void onNext(@io.reactivex.rxjava3.annotations.NonNull Movie popular)
+                    {
+                        if(fragmentHomeBinding.popularRecycleView.getAdapter() != null)
+                        {
+                            popularAdopter = (PopularAdopter) fragmentHomeBinding.popularRecycleView.getAdapter();
+                            popularAdopter.updatePopular(popular.getResults());
+
+                        }else
+                        {
+                            popularAdopter = new PopularAdopter(popular.getResults());
+                            fragmentHomeBinding.popularRecycleView.setAdapter(popularAdopter);
+
+                        }
+                    }
+
+                    @Override
+                    public void onError(@io.reactivex.rxjava3.annotations.NonNull Throwable e)
+                    {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
+    private void checkConnection()
+    {
+        ConnectivityManager.NetworkCallback networkCallback = new ConnectivityManager.NetworkCallback()
+        {
+
+            @Override
+            public void onAvailable(@androidx.annotation.NonNull Network network)
+            {
+                getTrending();
+                getPopular();
+            }
+
+            @Override
+            public void onLost(@androidx.annotation.NonNull Network network)
+            {
+                aestheticDialog = new AestheticDialog.Builder(getActivity(), DialogStyle.CONNECTIFY, DialogType.ERROR)
+                        .setTitle("No Available Connection")
+                        .setMessage("internet connection has been interrupted")
+                        .setDarkMode(true)
+                        .setGravity(Gravity.CENTER)
+                        .setAnimation(DialogAnimation.SPIN)
+                        .show();
+            }
+        };
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+        {
+            connectivityManager.registerDefaultNetworkCallback(networkCallback);
+        }else{
+            connectivityManager.registerNetworkCallback(networkRequest,networkCallback);
+        }
 
     }
+
+
+
 
 
     @Override

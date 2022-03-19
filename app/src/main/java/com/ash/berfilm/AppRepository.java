@@ -1,8 +1,6 @@
 package com.ash.berfilm;
 
 import com.ash.berfilm.Models.MovieModel.Movie;
-import com.ash.berfilm.RoomDb.Dao.TrendingDao;
-import com.ash.berfilm.RoomDb.Entity.TrendingEntity;
 import com.ash.berfilm.Service.ApiClient;
 
 import java.util.concurrent.Callable;
@@ -28,12 +26,11 @@ public class AppRepository
 {
 
     ApiClient apiClient;
-    TrendingDao trendingDao;
 
-    public AppRepository(ApiClient apiClient, TrendingDao trendingDao)
+
+    public AppRepository(ApiClient apiClient)
     {
         this.apiClient = apiClient;
-        this.trendingDao = trendingDao;
     }
 
 
@@ -95,39 +92,62 @@ public class AppRepository
     }
 
 
-    public void InsertTrending(Movie movie)
+    public Future<Observable<Movie>> popularFutureCall()
     {
-        Completable.fromAction(() -> trendingDao.insert(new TrendingEntity(movie)))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new CompletableObserver()
-                {
-                    @Override
-                    public void onSubscribe(@NonNull Disposable d)
-                    {
+      final   ExecutorService executorService = Executors.newSingleThreadExecutor();
 
-                    }
+      final Callable<Observable<Movie>> popularCallable = new Callable<Observable<Movie>>()
+      {
+          @Override
+          public Observable<Movie> call() throws Exception
+          {
+              return apiClient.getPopular();
+          }
+      };
 
-                    @Override
-                    public void onComplete()
-                    {
 
-                    }
+      final Future<Observable<Movie>> popularFuture = new Future<Observable<Movie>>()
+      {
+          @Override
+          public boolean cancel(boolean b)
+          {
+              if (b)
+              {
+                  return executorService.isShutdown();
+              }
+              return false;
+          }
 
-                    @Override
-                    public void onError(@NonNull Throwable e)
-                    {
+          @Override
+          public boolean isCancelled()
+          {
+              return executorService.isShutdown();
+          }
 
-                    }
-                });
+          @Override
+          public boolean isDone()
+          {
+              return executorService.isTerminated();
+          }
 
+          @Override
+          public Observable<Movie> get() throws ExecutionException, InterruptedException
+          {
+              return executorService.submit(popularCallable).get();
+          }
+
+          @Override
+          public Observable<Movie> get(long timeOut, TimeUnit timeUnit) throws ExecutionException, InterruptedException, TimeoutException
+          {
+              return executorService.submit(popularCallable).get(timeOut,timeUnit);
+          }
+      };
+
+
+        return  popularFuture;
 
     }
 
-    public Flowable<TrendingEntity> getTrending()
-    {
-       return trendingDao.getTrendingFromDb();
-    }
 
 
 

@@ -7,7 +7,14 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.ash.berfilm.HomeFragment.HomeFragment" />
+        android:name="com.ash.berfilm.HomeFragment.HomeFragment" >
+        <action
+            android:id="@+id/action_homeFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_seriesDetailFragment"
+            app:destination="@id/seriesDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/movieFragment"
         android:name="com.ash.berfilm.MovieFragment.MovieFragment" />
@@ -17,4 +24,12 @@
     <fragment
         android:id="@+id/favoriteFragment"
         android:name="com.ash.berfilm.FavoriteFragment.FavoriteFragment" />
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.ash.berfilm.DetailFragment.DetailFragment"
+        android:label="DetailFragment" />
+    <fragment
+        android:id="@+id/seriesDetailFragment"
+        android:name="com.ash.berfilm.DetailFragment.SeriesDetailFragment"
+        android:label="SeriesDetailFragment" />
 </navigation>

@@ -1,7 +1,6 @@
 package com.ash.berfilm.Hilt.Modules;
 
 import com.ash.berfilm.AppRepository;
-import com.ash.berfilm.RoomDb.Dao.TrendingDao;
 import com.ash.berfilm.Service.ApiClient;
 
 import javax.inject.Singleton;
@@ -42,9 +41,9 @@ public class NetworkModule
 
     @Provides
     @Singleton
-    AppRepository appRepository(ApiClient apiClient, TrendingDao trendingDao)
+    AppRepository appRepository(ApiClient apiClient)
     {
-        return new AppRepository(apiClient,trendingDao);
+        return new AppRepository(apiClient);
     }
 
 

@@ -10,16 +10,27 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkRequest;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.widget.PopupMenu;
 
 import com.ash.berfilm.Models.MovieModel.Movie;
 import com.ash.berfilm.ViewModel.AppViewModel;
 import com.ash.berfilm.databinding.ActivityMainBinding;
+import com.thecode.aestheticdialogs.AestheticDialog;
+import com.thecode.aestheticdialogs.DialogAnimation;
+import com.thecode.aestheticdialogs.DialogStyle;
+import com.thecode.aestheticdialogs.DialogType;
 
 import java.util.concurrent.TimeUnit;
+
+import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
@@ -42,6 +53,8 @@ public class MainActivity extends AppCompatActivity
     CompositeDisposable disposable;
     public DrawerLayout drawerLayout;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -53,10 +66,8 @@ public class MainActivity extends AppCompatActivity
 
         disposable = new CompositeDisposable();
 
-
         setUpViewModel();
         setUpNavigationComponent();
-        callTrendingApi();
 
 
 
@@ -94,40 +105,6 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-
-    private void callTrendingApi()
-    {
-        Observable.interval(3, TimeUnit.SECONDS)
-                .flatMap(n -> appViewModel.makeFutureCall().get())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Movie>()
-                {
-                    @Override
-                    public void onSubscribe(@NonNull Disposable d)
-                    {
-                        disposable.add(d);
-                    }
-
-                    @Override
-                    public void onNext(@NonNull Movie movie)
-                    {
-                        appViewModel.insertTrending(movie);
-                    }
-
-                    @Override
-                    public void onError(@NonNull Throwable e)
-                    {
-
-                    }
-
-                    @Override
-                    public void onComplete()
-                    {
-
-                    }
-                });
-    }
 
 
     @Override

@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel;
 
 import com.ash.berfilm.AppRepository;
 import com.ash.berfilm.Models.MovieModel.Movie;
-import com.ash.berfilm.RoomDb.Entity.TrendingEntity;
 
 import java.util.concurrent.Future;
 
@@ -36,14 +35,9 @@ public class AppViewModel extends ViewModel
         return appRepository.trendingFutureCall();
     }
 
-    public void insertTrending(Movie movie)
+    public Future<Observable<Movie>> makePopularFutureCall()
     {
-        appRepository.InsertTrending(movie);
-    }
-
-    public Flowable<TrendingEntity> getTrending()
-    {
-        return appRepository.getTrending();
+       return appRepository.popularFutureCall();
     }
 
 
