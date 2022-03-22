@@ -1,5 +1,8 @@
 package com.ash.berfilm;
 
+import android.os.Bundle;
+
+import com.ash.berfilm.Models.Credits.Credits;
 import com.ash.berfilm.Models.MovieModel.Movie;
 import com.ash.berfilm.Service.ApiClient;
 
@@ -35,22 +38,22 @@ public class AppRepository
 
 
 
-    public Future<Observable<Movie>> trendingFutureCall()
+    public Future<Observable<Movie>> trendingMovieFutureCall()
     {
        final ExecutorService executorService = Executors.newSingleThreadExecutor();
 
 
-       final Callable<Observable<Movie>> trendingCallable = new Callable<Observable<Movie>>()
+       final Callable<Observable<Movie>> trendingMovieCallable = new Callable<Observable<Movie>>()
        {
            @Override
            public Observable<Movie> call() throws Exception
            {
 
-               return apiClient.getTrending();
+               return apiClient.getTrendingMovie();
            }
        };
 
-       final Future<Observable<Movie>> observableFuture = new Future<Observable<Movie>>()
+       final Future<Observable<Movie>> observableTrendingMovieFuture = new Future<Observable<Movie>>()
        {
            @Override
            public boolean cancel(boolean b)
@@ -77,19 +80,108 @@ public class AppRepository
            @Override
            public Observable<Movie> get() throws ExecutionException, InterruptedException
            {
-               return executorService.submit(trendingCallable).get();
+               return executorService.submit(trendingMovieCallable).get();
            }
 
            @Override
            public Observable<Movie> get(long timeout, TimeUnit timeUnit) throws ExecutionException, InterruptedException, TimeoutException
            {
-               return executorService.submit(trendingCallable).get(timeout,timeUnit);
+               return executorService.submit(trendingMovieCallable).get(timeout,timeUnit);
            }
        };
 
 
-        return observableFuture;
+        return observableTrendingMovieFuture;
     }
+
+
+
+    public Future<Observable<Movie>> trendingSeriesFutureCall()
+    {
+        final  ExecutorService executorService = Executors.newSingleThreadExecutor();
+
+        final Callable<Observable<Movie>> trendingSeriesCallable = new Callable<Observable<Movie>>()
+        {
+            @Override
+            public Observable<Movie> call() throws Exception
+            {
+                return apiClient.getTrendingSeries();
+            }
+        };
+
+
+        final Future<Observable<Movie>> trendingSeriesFuture = new Future<Observable<Movie>>()
+        {
+            @Override
+            public boolean cancel(boolean b)
+            {
+                if (b)
+                {
+                    return executorService.isShutdown();
+                }
+                return false;
+            }
+
+            @Override
+            public boolean isCancelled()
+            {
+                return executorService.isShutdown();
+            }
+
+            @Override
+            public boolean isDone()
+            {
+                return executorService.isTerminated();
+            }
+
+            @Override
+            public Observable<Movie> get() throws ExecutionException, InterruptedException
+            {
+                return executorService.submit(trendingSeriesCallable).get();
+            }
+
+            @Override
+            public Observable<Movie> get(long timeOut, TimeUnit timeUnit) throws ExecutionException, InterruptedException, TimeoutException
+            {
+                return executorService.submit(trendingSeriesCallable).get(timeOut,timeUnit);
+            }
+        };
+
+
+        return  trendingSeriesFuture;
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     public Future<Observable<Movie>> popularFutureCall()
@@ -145,6 +237,65 @@ public class AppRepository
 
 
         return  popularFuture;
+
+    }
+
+
+
+
+    public Future<Observable<Movie>> upComingFutureCall()
+    {
+        final   ExecutorService executorService = Executors.newSingleThreadExecutor();
+
+        final Callable<Observable<Movie>> popularCallable = new Callable<Observable<Movie>>()
+        {
+            @Override
+            public Observable<Movie> call() throws Exception
+            {
+                return apiClient.getUpComing();
+            }
+        };
+
+
+        final Future<Observable<Movie>> upComingFuture = new Future<Observable<Movie>>()
+        {
+            @Override
+            public boolean cancel(boolean b)
+            {
+                if (b)
+                {
+                    return executorService.isShutdown();
+                }
+                return false;
+            }
+
+            @Override
+            public boolean isCancelled()
+            {
+                return executorService.isShutdown();
+            }
+
+            @Override
+            public boolean isDone()
+            {
+                return executorService.isTerminated();
+            }
+
+            @Override
+            public Observable<Movie> get() throws ExecutionException, InterruptedException
+            {
+                return executorService.submit(popularCallable).get();
+            }
+
+            @Override
+            public Observable<Movie> get(long timeOut, TimeUnit timeUnit) throws ExecutionException, InterruptedException, TimeoutException
+            {
+                return executorService.submit(popularCallable).get(timeOut,timeUnit);
+            }
+        };
+
+
+        return  upComingFuture;
 
     }
 

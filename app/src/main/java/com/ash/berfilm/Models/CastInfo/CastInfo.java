@@ -1,4 +1,4 @@
-package com.ash.berfilm.Models.Credits;
+package com.ash.berfilm.Models.CastInfo;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -6,46 +6,55 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Cast implements Parcelable
+public class CastInfo implements Parcelable
 {
 
     @SerializedName("adult")
     @Expose
     private Boolean adult;
+
+    @SerializedName("biography")
+    @Expose
+    private String biography;
+    @SerializedName("birthday")
+    @Expose
+    private String birthday;
+    @SerializedName("deathday")
+    @Expose
+    private String deathday;
     @SerializedName("gender")
     @Expose
     private Integer gender;
+    @SerializedName("homepage")
+    @Expose
+    private Object homepage;
     @SerializedName("id")
     @Expose
     private Integer id;
+    @SerializedName("imdb_id")
+    @Expose
+    private String imdbId;
     @SerializedName("known_for_department")
     @Expose
     private String knownForDepartment;
     @SerializedName("name")
     @Expose
     private String name;
-    @SerializedName("original_name")
+    @SerializedName("place_of_birth")
     @Expose
-    private String originalName;
+    private String placeOfBirth;
     @SerializedName("popularity")
     @Expose
     private Double popularity;
     @SerializedName("profile_path")
     @Expose
     private String profilePath;
-    @SerializedName("character")
-    @Expose
-    private String character;
-    @SerializedName("credit_id")
-    @Expose
-    private String creditId;
-    @SerializedName("order")
-    @Expose
-    private Integer order;
 
-    protected Cast(Parcel in) {
+    protected CastInfo(Parcel in) {
         byte tmpAdult = in.readByte();
         adult = tmpAdult == 0 ? null : tmpAdult == 1;
+        biography = in.readString();
+        birthday = in.readString();
         if (in.readByte() == 0) {
             gender = null;
         } else {
@@ -56,33 +65,27 @@ public class Cast implements Parcelable
         } else {
             id = in.readInt();
         }
+        imdbId = in.readString();
         knownForDepartment = in.readString();
         name = in.readString();
-        originalName = in.readString();
+        placeOfBirth = in.readString();
         if (in.readByte() == 0) {
             popularity = null;
         } else {
             popularity = in.readDouble();
         }
         profilePath = in.readString();
-        character = in.readString();
-        creditId = in.readString();
-        if (in.readByte() == 0) {
-            order = null;
-        } else {
-            order = in.readInt();
-        }
     }
 
-    public static final Creator<Cast> CREATOR = new Creator<Cast>() {
+    public static final Creator<CastInfo> CREATOR = new Creator<CastInfo>() {
         @Override
-        public Cast createFromParcel(Parcel in) {
-            return new Cast(in);
+        public CastInfo createFromParcel(Parcel in) {
+            return new CastInfo(in);
         }
 
         @Override
-        public Cast[] newArray(int size) {
-            return new Cast[size];
+        public CastInfo[] newArray(int size) {
+            return new CastInfo[size];
         }
     };
 
@@ -94,6 +97,31 @@ public class Cast implements Parcelable
         this.adult = adult;
     }
 
+
+    public String getBiography() {
+        return biography;
+    }
+
+    public void setBiography(String biography) {
+        this.biography = biography;
+    }
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
+
+    public String getDeathday() {
+        return deathday;
+    }
+
+    public void setDeathday(String deathday) {
+        this.deathday = deathday;
+    }
+
     public Integer getGender() {
         return gender;
     }
@@ -102,12 +130,28 @@ public class Cast implements Parcelable
         this.gender = gender;
     }
 
+    public Object getHomepage() {
+        return homepage;
+    }
+
+    public void setHomepage(Object homepage) {
+        this.homepage = homepage;
+    }
+
     public Integer getId() {
         return id;
     }
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getImdbId() {
+        return imdbId;
+    }
+
+    public void setImdbId(String imdbId) {
+        this.imdbId = imdbId;
     }
 
     public String getKnownForDepartment() {
@@ -126,12 +170,12 @@ public class Cast implements Parcelable
         this.name = name;
     }
 
-    public String getOriginalName() {
-        return originalName;
+    public String getPlaceOfBirth() {
+        return placeOfBirth;
     }
 
-    public void setOriginalName(String originalName) {
-        this.originalName = originalName;
+    public void setPlaceOfBirth(String placeOfBirth) {
+        this.placeOfBirth = placeOfBirth;
     }
 
     public Double getPopularity() {
@@ -150,30 +194,6 @@ public class Cast implements Parcelable
         this.profilePath = profilePath;
     }
 
-    public String getCharacter() {
-        return character;
-    }
-
-    public void setCharacter(String character) {
-        this.character = character;
-    }
-
-    public String getCreditId() {
-        return creditId;
-    }
-
-    public void setCreditId(String creditId) {
-        this.creditId = creditId;
-    }
-
-    public Integer getOrder() {
-        return order;
-    }
-
-    public void setOrder(Integer order) {
-        this.order = order;
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -182,6 +202,8 @@ public class Cast implements Parcelable
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeByte((byte) (adult == null ? 0 : adult ? 1 : 2));
+        parcel.writeString(biography);
+        parcel.writeString(birthday);
         if (gender == null) {
             parcel.writeByte((byte) 0);
         } else {
@@ -194,9 +216,10 @@ public class Cast implements Parcelable
             parcel.writeByte((byte) 1);
             parcel.writeInt(id);
         }
+        parcel.writeString(imdbId);
         parcel.writeString(knownForDepartment);
         parcel.writeString(name);
-        parcel.writeString(originalName);
+        parcel.writeString(placeOfBirth);
         if (popularity == null) {
             parcel.writeByte((byte) 0);
         } else {
@@ -204,13 +227,5 @@ public class Cast implements Parcelable
             parcel.writeDouble(popularity);
         }
         parcel.writeString(profilePath);
-        parcel.writeString(character);
-        parcel.writeString(creditId);
-        if (order == null) {
-            parcel.writeByte((byte) 0);
-        } else {
-            parcel.writeByte((byte) 1);
-            parcel.writeInt(order);
-        }
     }
 }

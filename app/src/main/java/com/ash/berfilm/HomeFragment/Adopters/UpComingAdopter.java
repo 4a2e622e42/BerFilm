@@ -19,32 +19,33 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
-public class TrendingAdopter extends RecyclerView.Adapter<TrendingAdopter.TrendingHolder>
+public class UpComingAdopter extends RecyclerView.Adapter<UpComingAdopter.UpComingViewHolder>
 {
-    List<MovieResult> trendingResults;
+    List<MovieResult> upComingList;
     LayoutInflater layoutInflater;
 
-    public TrendingAdopter(List<MovieResult> trendingResults)
+    public UpComingAdopter(List<MovieResult> upComingList)
     {
-        this.trendingResults = trendingResults;
+        this.upComingList = upComingList;
     }
 
     @NonNull
     @Override
-    public TrendingHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
+    public UpComingViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
         if(layoutInflater == null)
         {
             layoutInflater = LayoutInflater.from(parent.getContext());
         }
         MovieItemBinding movieItemBinding = DataBindingUtil.inflate(layoutInflater, R.layout.movie_item,parent,false);
-        return new TrendingHolder(movieItemBinding);
+
+        return new UpComingViewHolder(movieItemBinding);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TrendingHolder holder, @SuppressLint("RecyclerView") int position)
+    public void onBindViewHolder(@NonNull UpComingViewHolder holder, @SuppressLint("RecyclerView") int position)
     {
-        holder.bind(trendingResults.get(position));
+        holder.bind(upComingList.get(position));
 
         holder.movieItemBinding.trendingPoster.setOnClickListener(new View.OnClickListener()
         {
@@ -52,9 +53,8 @@ public class TrendingAdopter extends RecyclerView.Adapter<TrendingAdopter.Trendi
             public void onClick(View view)
             {
                 Bundle bundle = new Bundle();
-                bundle.putParcelable("model",trendingResults.get(position));
-
-                Navigation.findNavController(view).navigate(R.id.action_homeFragment_to_seriesDetailFragment,bundle);
+                bundle.putParcelable("model",upComingList.get(position));
+                Navigation.findNavController(view).navigate(R.id.action_homeFragment_to_detailFragment,bundle);
             }
         });
     }
@@ -62,55 +62,50 @@ public class TrendingAdopter extends RecyclerView.Adapter<TrendingAdopter.Trendi
     @Override
     public int getItemCount()
     {
-        return trendingResults.size();
+        return upComingList.size();
     }
-
-    public void updateTrending(List<MovieResult> trendingMovie)
+    public void updateUpcoming(List<MovieResult> upComingList)
     {
-        trendingMovie.addAll(trendingMovie);
+        upComingList.addAll(upComingList);
         notifyDataSetChanged();
     }
 
-
-    public class TrendingHolder extends RecyclerView.ViewHolder
+    public class UpComingViewHolder extends RecyclerView.ViewHolder
     {
         MovieItemBinding movieItemBinding;
-
-        public TrendingHolder(@NonNull MovieItemBinding movieItemBinding)
+        public UpComingViewHolder(@NonNull MovieItemBinding movieItemBinding)
         {
             super(movieItemBinding.getRoot());
             this.movieItemBinding = movieItemBinding;
         }
 
-        public void bind(MovieResult moviesResult)
+
+        public void bind(MovieResult upComingResult)
         {
-            loadPoster(moviesResult);
-            loadRate(moviesResult);
+            loadPoster(upComingResult);
+            loadRate(upComingResult);
 
             movieItemBinding.executePendingBindings();
 
         }
 
 
-        private void loadPoster(MovieResult trendingResult)
+        private void loadPoster(MovieResult upComingResult)
         {
             Glide.with(movieItemBinding.getRoot().getContext())
-                    .load("https://image.tmdb.org/t/p/w500"+ trendingResult.getPosterPath())
+                    .load("https://image.tmdb.org/t/p/w500"+ upComingResult.getPosterPath())
                     .thumbnail(Glide.with(movieItemBinding.getRoot().getContext()).load(R.drawable.loading))
                     .into(movieItemBinding.trendingPoster);
 
 
 
         }
-        private void loadRate(MovieResult trendingResult)
+        private void loadRate(MovieResult upComingResult)
         {
-            movieItemBinding.trendingRateButton.setText("TMDB: "+ trendingResult.getVoteAverage());
+            movieItemBinding.trendingRateButton.setText("TMDB: "+ String.format("%.1f" ,upComingResult.getVoteAverage()));
         }
 
 
-
-
     }
-
 
 }

@@ -3,6 +3,7 @@ package com.ash.berfilm.Hilt.Modules;
 import com.ash.berfilm.AppRepository;
 import com.ash.berfilm.Service.ApiClient;
 
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -45,6 +46,7 @@ public class NetworkModule
     {
         return new AppRepository(apiClient);
     }
+
 
 
 

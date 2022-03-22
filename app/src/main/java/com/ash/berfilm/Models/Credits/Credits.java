@@ -1,4 +1,4 @@
-package com.ash.cinefilm.Models.Casts;
+package com.ash.berfilm.Models.Credits;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

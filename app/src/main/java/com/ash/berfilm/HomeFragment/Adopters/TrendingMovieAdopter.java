@@ -2,7 +2,6 @@ package com.ash.berfilm.HomeFragment.Adopters;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,71 +15,73 @@ import com.ash.berfilm.Models.MovieModel.MovieResult;
 import com.ash.berfilm.R;
 import com.ash.berfilm.databinding.MovieItemBinding;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 
 import java.util.List;
 
-public class PopularAdopter extends RecyclerView.Adapter<PopularAdopter.PopularHolder>
+public class TrendingMovieAdopter extends RecyclerView.Adapter<TrendingMovieAdopter.TrendingHolder>
 {
-    List<MovieResult> popularResult;
+    List<MovieResult> trendingResults;
     LayoutInflater layoutInflater;
 
-    public PopularAdopter(List<MovieResult> popularResult)
+    public TrendingMovieAdopter(List<MovieResult> trendingResults)
     {
-        this.popularResult = popularResult;
+        this.trendingResults = trendingResults;
     }
 
     @NonNull
     @Override
-    public PopularHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
+    public TrendingHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
         if(layoutInflater == null)
         {
             layoutInflater = LayoutInflater.from(parent.getContext());
         }
-        MovieItemBinding movieItemBinding = DataBindingUtil.inflate(layoutInflater,R.layout.movie_item,parent,false);
-
-        return new PopularHolder(movieItemBinding);
+        MovieItemBinding movieItemBinding = DataBindingUtil.inflate(layoutInflater, R.layout.movie_item,parent,false);
+        return new TrendingHolder(movieItemBinding);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PopularHolder holder, @SuppressLint("RecyclerView") int position)
+    public void onBindViewHolder(@NonNull TrendingHolder holder, @SuppressLint("RecyclerView") int position)
     {
-        holder.bind(popularResult.get(position));
-
+        holder.bind(trendingResults.get(position));
         holder.movieItemBinding.trendingPoster.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
                 Bundle bundle = new Bundle();
-                bundle.putParcelable("model",popularResult.get(position));
+                bundle.putParcelable("model",trendingResults.get(position));
+
                 Navigation.findNavController(view).navigate(R.id.action_homeFragment_to_detailFragment,bundle);
             }
         });
     }
 
+
     @Override
     public int getItemCount()
     {
-        return popularResult.size();
+        return trendingResults.size();
     }
-    public void updatePopular(List<MovieResult> popularResult)
+
+    public void updateTrending(List<MovieResult> trendingMovie)
     {
-        popularResult.addAll(popularResult);
+        trendingMovie.addAll(trendingMovie);
         notifyDataSetChanged();
     }
 
-    public static class  PopularHolder extends RecyclerView.ViewHolder
+
+    public class TrendingHolder extends RecyclerView.ViewHolder
     {
         MovieItemBinding movieItemBinding;
 
-        public PopularHolder(@NonNull MovieItemBinding movieItemBinding)
+        public TrendingHolder(@NonNull MovieItemBinding movieItemBinding)
         {
             super(movieItemBinding.getRoot());
             this.movieItemBinding = movieItemBinding;
 
         }
-
 
         public void bind(MovieResult moviesResult)
         {
@@ -92,23 +93,26 @@ public class PopularAdopter extends RecyclerView.Adapter<PopularAdopter.PopularH
         }
 
 
-        private void loadPoster(MovieResult popularResult)
+        private void loadPoster(MovieResult trendingResult)
         {
             Glide.with(movieItemBinding.getRoot().getContext())
-                    .load("https://image.tmdb.org/t/p/w500"+ popularResult.getPosterPath())
+                    .load("https://image.tmdb.org/t/p/w500"+ trendingResult.getPosterPath())
                     .thumbnail(Glide.with(movieItemBinding.getRoot().getContext()).load(R.drawable.loading))
+                    .transition(DrawableTransitionOptions.withCrossFade())
                     .into(movieItemBinding.trendingPoster);
 
 
 
         }
-        private void loadRate(MovieResult popularResult)
+        private void loadRate(MovieResult trendingResult)
         {
-            movieItemBinding.trendingRateButton.setText("TMDB: "+ String.format("%.1f" ,popularResult.getVoteAverage()));
+            movieItemBinding.trendingRateButton.setText("TMDB: "+ trendingResult.getVoteAverage());
         }
 
 
 
 
     }
+
+
 }

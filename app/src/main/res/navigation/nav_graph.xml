@@ -26,10 +26,28 @@
         android:name="com.ash.berfilm.FavoriteFragment.FavoriteFragment" />
     <fragment
         android:id="@+id/detailFragment"
-        android:name="com.ash.berfilm.DetailFragment.DetailFragment"
-        android:label="DetailFragment" />
+        android:name="com.ash.berfilm.DetailFragment.DetailFragment" >
+        <action
+            android:id="@+id/action_detailFragment_self"
+            app:destination="@id/detailFragment" />
+        <action
+            android:id="@+id/action_detailFragment_to_castInformationFragment"
+            app:destination="@id/castInformationFragment" />
+    </fragment>
     <fragment
         android:id="@+id/seriesDetailFragment"
-        android:name="com.ash.berfilm.DetailFragment.SeriesDetailFragment"
-        android:label="SeriesDetailFragment" />
+        android:name="com.ash.berfilm.DetailFragment.SeriesDetailFragment" >
+        <action
+            android:id="@+id/action_seriesDetailFragment_self"
+            app:destination="@id/seriesDetailFragment" />
+        <action
+            android:id="@+id/action_seriesDetailFragment_to_castInformationFragment"
+            app:destination="@id/castInformationFragment" />
+        <action
+            android:id="@+id/action_seriesDetailFragment_to_castInformationFragment2"
+            app:destination="@id/castInformationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/castInformationFragment"
+        android:name="com.ash.berfilm.DetailFragment.CastInformationFragment" />
 </navigation>

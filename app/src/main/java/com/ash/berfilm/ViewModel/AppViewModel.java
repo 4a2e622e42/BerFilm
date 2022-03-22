@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 
 import com.ash.berfilm.AppRepository;
+import com.ash.berfilm.Models.Credits.Credits;
 import com.ash.berfilm.Models.MovieModel.Movie;
 
 import java.util.concurrent.Future;
@@ -30,9 +31,14 @@ public class AppViewModel extends ViewModel
         super();
     }
 
-    public Future<Observable<Movie>> makeFutureCall()
+    public Future<Observable<Movie>> makeTrendingMovieFutureCall()
     {
-        return appRepository.trendingFutureCall();
+        return appRepository.trendingMovieFutureCall();
+    }
+
+    public Future<Observable<Movie>> makeTrendingSeriesFutureCall()
+    {
+        return appRepository.trendingSeriesFutureCall();
     }
 
     public Future<Observable<Movie>> makePopularFutureCall()
@@ -40,6 +46,10 @@ public class AppViewModel extends ViewModel
        return appRepository.popularFutureCall();
     }
 
+    public Future<Observable<Movie>> makeUpComingFutureCall()
+    {
+        return appRepository.upComingFutureCall();
+    }
 
 
 }

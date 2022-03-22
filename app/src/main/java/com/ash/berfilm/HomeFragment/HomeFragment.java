@@ -26,12 +26,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ash.berfilm.HomeFragment.Adopters.PopularAdopter;
-import com.ash.berfilm.HomeFragment.Adopters.TrendingAdopter;
+import com.ash.berfilm.HomeFragment.Adopters.TrendingMovieAdopter;
+import com.ash.berfilm.HomeFragment.Adopters.TrendingSeriesAdopter;
+import com.ash.berfilm.HomeFragment.Adopters.UpComingAdopter;
 import com.ash.berfilm.MainActivity;
 import com.ash.berfilm.Models.MovieModel.Movie;
 import com.ash.berfilm.R;
 import com.ash.berfilm.ViewModel.AppViewModel;
 import com.ash.berfilm.databinding.FragmentHomeBinding;
+import com.ash.berfilm.databinding.MovieItemBinding;
 import com.thecode.aestheticdialogs.AestheticDialog;
 import com.thecode.aestheticdialogs.DialogAnimation;
 import com.thecode.aestheticdialogs.DialogStyle;
@@ -45,10 +48,8 @@ import dagger.hilt.android.AndroidEntryPoint;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Observer;
-import io.reactivex.rxjava3.core.Scheduler;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
-import io.reactivex.rxjava3.functions.Consumer;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 @AndroidEntryPoint
@@ -58,8 +59,10 @@ public class HomeFragment extends Fragment
     MainActivity mainActivity;
     AppViewModel appViewModel;
     CompositeDisposable compositeDisposable;
-    TrendingAdopter trendingAdopter;
+    TrendingMovieAdopter trendingMovieAdopter;
+    TrendingSeriesAdopter trendingSeriesAdopter;
     PopularAdopter popularAdopter;
+    UpComingAdopter upComingAdopter;
 
     @Inject
     ConnectivityManager connectivityManager;
@@ -132,31 +135,33 @@ public class HomeFragment extends Fragment
 
     }
 
-    private void getTrending()
+    private void getTrendingMovie()
     {
+
         Observable.interval(1, TimeUnit.MILLISECONDS)
-                .flatMap(n -> appViewModel.makeFutureCall().get())
+                .flatMap(n -> appViewModel.makeTrendingMovieFutureCall().get())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Movie>() {
                     @Override
                     public void onSubscribe(@io.reactivex.rxjava3.annotations.NonNull Disposable d)
                     {
+
                         compositeDisposable.add(d);
                     }
 
                     @Override
                     public void onNext(@io.reactivex.rxjava3.annotations.NonNull Movie trending)
                     {
-                        if(fragmentHomeBinding.trendingRecycleView.getAdapter() != null)
+                        if(fragmentHomeBinding.trendingMovieRecycleView.getAdapter() != null)
                         {
-                            trendingAdopter = (TrendingAdopter) fragmentHomeBinding.trendingRecycleView.getAdapter();
-                            trendingAdopter.updateTrending(trending.getResults());
+                            trendingMovieAdopter = (TrendingMovieAdopter) fragmentHomeBinding.trendingMovieRecycleView.getAdapter();
+                            trendingMovieAdopter.updateTrending(trending.getResults());
 
                         }else
                         {
-                            trendingAdopter = new TrendingAdopter(trending.getResults());
-                            fragmentHomeBinding.trendingRecycleView.setAdapter(trendingAdopter);
+                            trendingMovieAdopter = new TrendingMovieAdopter(trending.getResults());
+                            fragmentHomeBinding.trendingMovieRecycleView.setAdapter(trendingMovieAdopter);
 
                         }
                     }
@@ -168,7 +173,8 @@ public class HomeFragment extends Fragment
                     }
 
                     @Override
-                    public void onComplete() {
+                    public void onComplete()
+                    {
 
                     }
                 });
@@ -216,6 +222,94 @@ public class HomeFragment extends Fragment
                 });
     }
 
+    private void getUpcoming()
+    {
+        Observable.interval(1, TimeUnit.MILLISECONDS)
+                .flatMap(n -> appViewModel.makeUpComingFutureCall().get())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Movie>() {
+                    @Override
+                    public void onSubscribe(@io.reactivex.rxjava3.annotations.NonNull Disposable d)
+                    {
+                        compositeDisposable.add(d);
+                    }
+
+                    @Override
+                    public void onNext(@io.reactivex.rxjava3.annotations.NonNull Movie upComing)
+                    {
+                        if(fragmentHomeBinding.upComingRecycleView.getAdapter() != null)
+                        {
+                            upComingAdopter = (UpComingAdopter) fragmentHomeBinding.upComingRecycleView.getAdapter();
+                            upComingAdopter.updateUpcoming(upComing.getResults());
+
+                        }else
+                        {
+                            upComingAdopter = new UpComingAdopter(upComing.getResults());
+                            fragmentHomeBinding.upComingRecycleView.setAdapter(upComingAdopter);
+
+                        }
+                    }
+
+                    @Override
+                    public void onError(@io.reactivex.rxjava3.annotations.NonNull Throwable e)
+                    {
+                        Log.e("TAG","Error:  "+e.toString());
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
+    private void getTrendingSeries()
+    {
+        Observable.interval(1,TimeUnit.MILLISECONDS)
+                .flatMap(n -> appViewModel.makeTrendingSeriesFutureCall().get())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Movie>() {
+                    @Override
+                    public void onSubscribe(@io.reactivex.rxjava3.annotations.NonNull Disposable d)
+                    {
+                        compositeDisposable.add(d);
+                    }
+
+                    @Override
+                    public void onNext(@io.reactivex.rxjava3.annotations.NonNull Movie trendingSeries)
+                    {
+                        if(fragmentHomeBinding.trendingSeriesRecycleView.getAdapter() != null)
+                        {
+                            trendingSeriesAdopter = (TrendingSeriesAdopter) fragmentHomeBinding.trendingSeriesRecycleView.getAdapter();
+                            trendingSeriesAdopter.updateSeries(trendingSeries.getResults());
+
+                        }else
+                        {
+                            trendingSeriesAdopter = new TrendingSeriesAdopter(trendingSeries.getResults());
+                            fragmentHomeBinding.trendingSeriesRecycleView.setAdapter(trendingSeriesAdopter);
+                        }
+                    }
+
+                    @Override
+                    public void onError(@io.reactivex.rxjava3.annotations.NonNull Throwable e)
+                    {
+                        Log.e("TAG","Error:  "+e.toString());
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+
+
+
+
+
+    }
+
     private void checkConnection()
     {
         ConnectivityManager.NetworkCallback networkCallback = new ConnectivityManager.NetworkCallback()
@@ -224,8 +318,10 @@ public class HomeFragment extends Fragment
             @Override
             public void onAvailable(@androidx.annotation.NonNull Network network)
             {
-                getTrending();
+                getTrendingMovie();
+                getTrendingSeries();
                 getPopular();
+                getUpcoming();
             }
 
             @Override
