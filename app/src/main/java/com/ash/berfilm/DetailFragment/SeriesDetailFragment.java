@@ -6,15 +6,15 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.ash.berfilm.DetailFragment.Adopters.CreditsAdopter;
 import com.ash.berfilm.DetailFragment.Adopters.SeriesCastAdopter;
-import com.ash.berfilm.DetailFragment.Adopters.SimilarMovieAdopter;
-import com.ash.berfilm.DetailFragment.Adopters.SimilarSeriesAdopter;
+import com.ash.berfilm.DetailFragment.Adopters.RecommendedSeriesAdopter;
 import com.ash.berfilm.Models.Credits.Cast;
 import com.ash.berfilm.Models.Credits.Credits;
 import com.ash.berfilm.Models.Credits.Crew;
@@ -28,8 +28,6 @@ import com.bumptech.glide.request.RequestOptions;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 import jp.wasabeef.glide.transformations.BlurTransformation;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -42,7 +40,7 @@ public class SeriesDetailFragment extends Fragment
 {
     FragmentSereisDetailBinding fragmentSeriesBinding;
     SeriesCastAdopter seriesCastAdopter;
-    SimilarSeriesAdopter similarSeriesAdopter;
+    RecommendedSeriesAdopter recommendedSeriesAdopter;
     List<Cast> castList;
     List<Crew> crewList;
     List<MovieResult> similarList;
@@ -63,8 +61,22 @@ public class SeriesDetailFragment extends Fragment
         MovieResult series = getArguments().getParcelable("model");
 
         setUpCreditsDetail(series.getId());
-        getSimilar(series.getId());
+        getRecommendedSeries(series.getId());
         setupDetail(series);
+
+        fragmentSeriesBinding.playTrailerButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                Bundle bundle = new Bundle();
+                bundle.putInt("seriesId",series.getId());
+
+                Navigation.findNavController(view).navigate(R.id.action_seriesDetailFragment_to_seriesTrailerFragment,bundle);
+            }
+        });
+
+
 
 
         return fragmentSeriesBinding.getRoot();
@@ -75,7 +87,6 @@ public class SeriesDetailFragment extends Fragment
 
         Glide.with(fragmentSeriesBinding.getRoot().getContext())
                 .load("https://image.tmdb.org/t/p/w500"+ seriesResult.getBackdropPath())
-                .apply(RequestOptions.bitmapTransform(new BlurTransformation(5, 3)))
                 .into(fragmentSeriesBinding.poster);
 
         Glide.with(fragmentSeriesBinding.getRoot().getContext())
@@ -142,7 +153,7 @@ public class SeriesDetailFragment extends Fragment
     }
 
 
-    private void getSimilar(int id)
+    private void getRecommendedSeries(int id)
     {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.themoviedb.org/3/")
@@ -150,7 +161,7 @@ public class SeriesDetailFragment extends Fragment
                 .build();
         ApiClient apiClient = retrofit.create(ApiClient.class);
 
-        Call<Movie> call = apiClient.getSimilarSeries(id);
+        Call<Movie> call = apiClient.getRecommendedSeries(id);
 
       call.enqueue(new Callback<Movie>()
       {
@@ -160,13 +171,13 @@ public class SeriesDetailFragment extends Fragment
               similarList = response.body().getResults();
 
 
-              if(fragmentSeriesBinding.similarRecyclerView.getAdapter() != null)
+              if(fragmentSeriesBinding.RecommendedRecyclerView.getAdapter() != null)
               {
-                  similarSeriesAdopter = (SimilarSeriesAdopter) fragmentSeriesBinding.similarRecyclerView.getAdapter();
+                  recommendedSeriesAdopter = (RecommendedSeriesAdopter) fragmentSeriesBinding.RecommendedRecyclerView.getAdapter();
               }else
               {
-                  similarSeriesAdopter = new SimilarSeriesAdopter(similarList);
-                  fragmentSeriesBinding.similarRecyclerView.setAdapter(similarSeriesAdopter);
+                  recommendedSeriesAdopter = new RecommendedSeriesAdopter(similarList);
+                  fragmentSeriesBinding.RecommendedRecyclerView.setAdapter(recommendedSeriesAdopter);
               }
 
           }

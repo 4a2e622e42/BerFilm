@@ -3,6 +3,8 @@ package com.ash.berfilm.Service;
 import com.ash.berfilm.Models.CastInfo.CastInfo;
 import com.ash.berfilm.Models.Credits.Credits;
 import com.ash.berfilm.Models.MovieModel.Movie;
+import com.ash.berfilm.Models.Trailer.Trailer;
+import com.ash.berfilm.Models.Trailer.TrailerResult;
 
 import io.reactivex.rxjava3.core.Observable;
 import retrofit2.Call;
@@ -11,7 +13,7 @@ import retrofit2.http.Path;
 
 public interface ApiClient
 {
-    //Base_URL =https://api.themoviedb.org/3
+    //Base_URL =https://api.themoviedb.org/3/
 
     //->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
     //Movies Api
@@ -32,9 +34,13 @@ public interface ApiClient
     @GET("movie/upcoming?api_key=cabfea895bffe3f80d9b51460c2c2693")
     Observable<Movie> getUpComing();
 
-    //Get Similar Movie
-    @GET("movie/{id}/similar?api_key=cabfea895bffe3f80d9b51460c2c2693")
-    Call<Movie> getSimilarMovie(@Path("id") int id);
+    //Get Recommendations Movie
+    @GET("movie/{id}/recommendations?api_key=cabfea895bffe3f80d9b51460c2c2693")
+    Call<Movie> getRecommendedMovie(@Path("id") int id);
+
+    //Get Movie Trailer
+    @GET("movie/{id}/videos?api_key=cabfea895bffe3f80d9b51460c2c2693")
+    Call<Trailer> getMovieTrailer(@Path("id") int id);
 
 
 
@@ -50,9 +56,14 @@ public interface ApiClient
     Call<Credits> getSeriesCredits(@Path("id") int id);
 
 
-    //Get Similar Series
-    @GET("tv/{id}/similar?api_key=cabfea895bffe3f80d9b51460c2c2693")
-    Call<Movie> getSimilarSeries(@Path("id") int id);
+    //Get Recommended Series
+    @GET("tv/{id}/recommendations?api_key=cabfea895bffe3f80d9b51460c2c2693")
+    Call<Movie> getRecommendedSeries(@Path("id") int id);
+
+
+    //Get Series Trailer
+    @GET("tv/{id}/videos?api_key=cabfea895bffe3f80d9b51460c2c2693")
+    Call<Trailer> getSeriesTrailer(@Path("id") int id);
 
     //->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
     //Cast Information

@@ -29,11 +29,24 @@
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/poster"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="250dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:riv_corner_radius="20dp" />
+
+                <com.ornach.nobobutton.NoboButton
+                    android:id="@+id/playTrailerButton"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="80dp"
+                    android:layout_marginBottom="80dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/mainPoster"
+                    app:nb_backgroundColor="#db1658"
+                    app:nb_drawableResource="@drawable/ic_baseline_play_circle_filled_24"
+                    app:nb_radius="50dp" />
+
 
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/mainPoster"
@@ -211,22 +224,22 @@
                 app:layout_constraintTop_toBottomOf="@+id/constraintLayout4">
 
                 <TextView
-                    android:id="@+id/similarText"
+                    android:id="@+id/RecommendedText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="20dp"
-                    android:text="Similar"
+                    android:text="Recommended"
                     android:textColor="@color/white"
                     android:textSize="22sp"
-                    app:layout_constraintBottom_toTopOf="@+id/similarRecyclerView"
+                    app:layout_constraintBottom_toTopOf="@+id/RecommendedRecyclerView"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/similarRecyclerView"
+                    android:id="@+id/RecommendedRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="100dp"

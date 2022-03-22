@@ -119,10 +119,14 @@ dependencies {
     implementation "jp.wasabeef:glide-transformations:$blur_version"
 
     //-----------------------------------------------------------------------------
-
-    implementation 'de.hdodenhof:circleimageview:3.1.0'
+    //Circular ImageView
+    def circular_version = "3.1.0"
+    implementation "de.hdodenhof:circleimageview:$circular_version"
 
     //-----------------------------------------------------------------------------
+    //YoutubePlayer
+    def youTubePlayer_version = "11.0.1"
+    implementation "com.pierfrancescosoffritti.androidyoutubeplayer:core:$youTubePlayer_version"
 
 
 

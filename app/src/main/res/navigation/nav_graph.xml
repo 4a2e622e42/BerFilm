@@ -33,6 +33,9 @@
         <action
             android:id="@+id/action_detailFragment_to_castInformationFragment"
             app:destination="@id/castInformationFragment" />
+        <action
+            android:id="@+id/action_detailFragment_to_movieTrailerFragment"
+            app:destination="@id/movieTrailerFragment" />
     </fragment>
     <fragment
         android:id="@+id/seriesDetailFragment"
@@ -46,8 +49,18 @@
         <action
             android:id="@+id/action_seriesDetailFragment_to_castInformationFragment2"
             app:destination="@id/castInformationFragment" />
+        <action
+            android:id="@+id/action_seriesDetailFragment_to_seriesTrailerFragment"
+            app:destination="@id/seriesTrailerFragment" />
     </fragment>
     <fragment
         android:id="@+id/castInformationFragment"
         android:name="com.ash.berfilm.DetailFragment.CastInformationFragment" />
+    <fragment
+        android:id="@+id/movieTrailerFragment"
+        android:name="com.ash.berfilm.TrailerFragment.MovieTrailerFragment" />
+    <fragment
+        android:id="@+id/seriesTrailerFragment"
+        android:name="com.ash.berfilm.TrailerFragment.SeriesTrailerFragment"
+        android:label="SeriesTrailerFragment" />
 </navigation>

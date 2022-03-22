@@ -4,13 +4,15 @@ import android.os.Bundle;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.ash.berfilm.DetailFragment.Adopters.CreditsAdopter;
-import com.ash.berfilm.DetailFragment.Adopters.SimilarMovieAdopter;
+import com.ash.berfilm.DetailFragment.Adopters.RecommendedMovieAdopter;
 import com.ash.berfilm.Models.Credits.Cast;
 import com.ash.berfilm.Models.Credits.Credits;
 import com.ash.berfilm.Models.Credits.Crew;
@@ -40,7 +42,7 @@ public class DetailFragment extends Fragment
     List<Cast> castList;
     List<Crew> crewList;
     List<MovieResult> similarMovie;
-    SimilarMovieAdopter similarMovieAdopter;
+    RecommendedMovieAdopter recommendedMovieAdopter;
     @Inject
     ApiClient apiClient;
 
@@ -56,7 +58,19 @@ public class DetailFragment extends Fragment
 
         setupDetail(movie);
         setUpMovieCreditsDetail(movie.getId());
-        getSimilar(movie.getId());
+        getRecommendedMovie(movie.getId());
+
+
+        fragmentDetailBinding.playTrailerButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                Bundle bundle = new Bundle();
+                bundle.putInt("movieId",movie.getId());
+                Navigation.findNavController(view).navigate(R.id.action_detailFragment_to_movieTrailerFragment,bundle);
+            }
+        });
 
 
         return fragmentDetailBinding.getRoot();
@@ -66,7 +80,6 @@ public class DetailFragment extends Fragment
 
         Glide.with(fragmentDetailBinding.getRoot().getContext())
                 .load("https://image.tmdb.org/t/p/w500" + moviesResult.getBackdropPath())
-                .apply(RequestOptions.bitmapTransform(new BlurTransformation(5, 3)))
                 .into(fragmentDetailBinding.poster);
 
         Glide.with(fragmentDetailBinding.getRoot().getContext())
@@ -125,9 +138,9 @@ public class DetailFragment extends Fragment
     }
 
 
-    private void getSimilar(int id)
+    private void getRecommendedMovie(int id)
     {
-        Call<Movie> call = apiClient.getSimilarMovie(id);
+        Call<Movie> call = apiClient.getRecommendedMovie(id);
 
         call.enqueue(new Callback<Movie>() {
             @Override
@@ -135,11 +148,11 @@ public class DetailFragment extends Fragment
                 similarMovie = response.body().getResults();
 
 
-                if (fragmentDetailBinding.similarRecyclerView.getAdapter() != null) {
-                    similarMovieAdopter = (SimilarMovieAdopter) fragmentDetailBinding.similarRecyclerView.getAdapter();
+                if (fragmentDetailBinding.RecommendedRecyclerView.getAdapter() != null) {
+                    recommendedMovieAdopter = (RecommendedMovieAdopter) fragmentDetailBinding.RecommendedRecyclerView.getAdapter();
                 } else {
-                    similarMovieAdopter = new SimilarMovieAdopter(similarMovie);
-                    fragmentDetailBinding.similarRecyclerView.setAdapter(similarMovieAdopter);
+                    recommendedMovieAdopter = new RecommendedMovieAdopter(similarMovie);
+                    fragmentDetailBinding.RecommendedRecyclerView.setAdapter(recommendedMovieAdopter);
                 }
 
             }

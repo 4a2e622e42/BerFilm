@@ -3,7 +3,6 @@ package com.ash.berfilm.DetailFragment.Adopters;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.SurfaceControl;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -20,77 +19,77 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 
 import java.util.List;
 
-public class SimilarMovieAdopter extends RecyclerView.Adapter<SimilarMovieAdopter.SimilarViewHolder>
+public class RecommendedSeriesAdopter extends RecyclerView.Adapter<RecommendedSeriesAdopter.RecommendedSeriesViewHolder>
 {
-    List<MovieResult> similarList;
+    List<MovieResult> recommendedList;
     LayoutInflater layoutInflater;
 
-    public SimilarMovieAdopter(List<MovieResult> similarList)
+    public RecommendedSeriesAdopter(List<MovieResult> recommendedList)
     {
-        this.similarList = similarList;
+        this.recommendedList = recommendedList;
     }
 
     @NonNull
     @Override
-    public SimilarViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
+    public RecommendedSeriesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
         if(layoutInflater == null)
         {
             layoutInflater = LayoutInflater.from(parent.getContext());
         }
         MovieItemBinding movieItemBinding = DataBindingUtil.inflate(layoutInflater, R.layout.movie_item,parent,false);
-        return new SimilarViewHolder(movieItemBinding);
+
+        return new RecommendedSeriesViewHolder(movieItemBinding);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SimilarViewHolder holder, @SuppressLint("RecyclerView") int position)
+    public void onBindViewHolder(@NonNull RecommendedSeriesViewHolder holder, @SuppressLint("RecyclerView") int position)
     {
-        holder.bind(similarList.get(position));
+        holder.bind(recommendedList.get(position));
         holder.movieItemBinding.trendingPoster.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
                 Bundle bundle = new Bundle();
-                bundle.putParcelable("model",similarList.get(position));
+                bundle.putParcelable("model",recommendedList.get(position));
 
-                Navigation.findNavController(view).navigate(R.id.action_detailFragment_self,bundle);
+                Navigation.findNavController(view).navigate(R.id.action_seriesDetailFragment_self,bundle);
             }
         });
     }
 
-
     @Override
     public int getItemCount()
     {
-        return similarList.size();
+        return recommendedList.size();
     }
 
-    public class SimilarViewHolder extends RecyclerView.ViewHolder
+    public class RecommendedSeriesViewHolder extends RecyclerView.ViewHolder
     {
         MovieItemBinding movieItemBinding;
 
-        public SimilarViewHolder(@NonNull MovieItemBinding movieItemBinding)
+        public RecommendedSeriesViewHolder(@NonNull MovieItemBinding movieItemBinding)
         {
             super(movieItemBinding.getRoot());
-            this.movieItemBinding = movieItemBinding;
-        }
+
+            this.movieItemBinding = movieItemBinding;        }
 
 
-        public void bind(MovieResult similarMoviesResult)
+        public void bind(MovieResult recommendedResult)
         {
-            loadPoster(similarMoviesResult);
-            loadRate(similarMoviesResult);
+            loadPoster(recommendedResult);
+            loadRate(recommendedResult);
 
             movieItemBinding.executePendingBindings();
 
         }
 
 
-        private void loadPoster(MovieResult similarMovie)
+        private void loadPoster(MovieResult recommendedSeries)
         {
             Glide.with(movieItemBinding.getRoot().getContext())
-                    .load("https://image.tmdb.org/t/p/w500"+ similarMovie.getPosterPath())
+                    .load("https://image.tmdb.org/t/p/w500"+ recommendedSeries.getPosterPath())
                     .thumbnail(Glide.with(movieItemBinding.getRoot().getContext()).load(R.drawable.loading))
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(movieItemBinding.trendingPoster);
@@ -98,14 +97,20 @@ public class SimilarMovieAdopter extends RecyclerView.Adapter<SimilarMovieAdopte
 
 
         }
-        private void loadRate(MovieResult similarMovie)
+        private void loadRate(MovieResult recommendedSeries)
         {
-            movieItemBinding.trendingRateButton.setText("TMDB: "+ String.format("%.1f" ,similarMovie.getVoteAverage()));
+            movieItemBinding.trendingRateButton.setText("TMDB: "+ String.format("%.1f" ,recommendedSeries.getVoteAverage()));
         }
 
 
 
 
 
+
+
+
+
     }
+
+
 }
