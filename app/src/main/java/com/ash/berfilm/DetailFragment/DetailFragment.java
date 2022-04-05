@@ -1,11 +1,14 @@
 package com.ash.berfilm.DetailFragment;
 
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +26,11 @@ import com.ash.berfilm.Service.ApiClient;
 import com.ash.berfilm.databinding.FragmentDetailBinding;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -59,7 +66,6 @@ public class DetailFragment extends Fragment
         setupDetail(movie);
         setUpMovieCreditsDetail(movie.getId());
         getRecommendedMovie(movie.getId());
-
 
         fragmentDetailBinding.playTrailerButton.setOnClickListener(new View.OnClickListener()
         {
@@ -158,12 +164,24 @@ public class DetailFragment extends Fragment
             }
 
             @Override
-            public void onFailure(Call<Movie> call, Throwable t) {
+            public void onFailure(Call<Movie> call, Throwable t)
+            {
 
             }
         });
 
     }
+
+
+
+
+
+
+
+
+
+
+
 
 
     @Override

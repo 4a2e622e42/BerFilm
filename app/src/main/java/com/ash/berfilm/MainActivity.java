@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity
 
         navController   = navHostFragment.getNavController();
 
-        appBarConfiguration = new AppBarConfiguration.Builder(R.id.homeFragment,R.id.movieFragment,R.id.seriesFragment,R.id.favoriteFragment)
+        appBarConfiguration = new AppBarConfiguration.Builder(R.id.homeFragment,R.id.movieFragment,R.id.seriesFragment)
                 .setOpenableLayout(activityMainBinding.drawerLayout)
                 .build();
 

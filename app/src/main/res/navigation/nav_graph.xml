@@ -37,9 +37,6 @@
             app:destination="@id/seriesDetailFragment" />
     </fragment>
     <fragment
-        android:id="@+id/favoriteFragment"
-        android:name="com.ash.berfilm.FavoriteFragment.FavoriteFragment" />
-    <fragment
         android:id="@+id/detailFragment"
         android:name="com.ash.berfilm.DetailFragment.DetailFragment" >
         <action

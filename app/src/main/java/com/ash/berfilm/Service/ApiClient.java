@@ -56,7 +56,6 @@ public interface ApiClient
                               );
 
 
-
     //->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
     //Series Api
 
@@ -90,6 +89,8 @@ public interface ApiClient
     Call<Movie> getSeriesSearchText(@Query("query") String text,
                               @Query("page") int page
     );
+
+
 
 
 

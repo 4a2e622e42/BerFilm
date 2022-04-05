@@ -21,14 +21,6 @@
         android:enabled="true"
 
         />
-    <item
-        android:id="@+id/favoriteFragment"
-        android:title="Favorit"
-        android:icon="@drawable/ic_favorit_icon"
-        android:enabled="true"
-
-        />
-
 
 
 
