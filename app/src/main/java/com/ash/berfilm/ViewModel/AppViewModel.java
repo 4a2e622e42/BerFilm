@@ -16,6 +16,7 @@ import javax.inject.Inject;
 import dagger.hilt.android.lifecycle.HiltViewModel;
 import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.core.Observable;
+import retrofit2.Call;
 
 @HiltViewModel
 public class AppViewModel extends ViewModel
@@ -49,6 +50,27 @@ public class AppViewModel extends ViewModel
     public Future<Observable<Movie>> makeUpComingFutureCall()
     {
         return appRepository.upComingFutureCall();
+    }
+
+    public Call<Movie> makeAllMoviesCall(int page)
+    {
+        return appRepository.moviesCall(page);
+    }
+
+    public Call<Movie> makeAllSeriesCall(int page)
+    {
+        return  appRepository.seriesCall(page);
+    }
+
+    public Call<Movie> makeSearchCall(String search,int page)
+    {
+        return appRepository.searchedMovie(search,page);
+    }
+
+
+    public Call<Movie> makeSeriesSearchCall(String search,int page)
+    {
+        return appRepository.searchedSeries(search,page);
     }
 
 

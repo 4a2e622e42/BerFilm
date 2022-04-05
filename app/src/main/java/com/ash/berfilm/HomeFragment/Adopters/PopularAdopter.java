@@ -86,6 +86,7 @@ public class PopularAdopter extends RecyclerView.Adapter<PopularAdopter.PopularH
         {
             loadPoster(moviesResult);
             loadRate(moviesResult);
+            loadName(moviesResult);
 
             movieItemBinding.executePendingBindings();
 
@@ -104,7 +105,11 @@ public class PopularAdopter extends RecyclerView.Adapter<PopularAdopter.PopularH
         }
         private void loadRate(MovieResult popularResult)
         {
-            movieItemBinding.trendingRateButton.setText("TMDB: "+ String.format("%.1f" ,popularResult.getVoteAverage()));
+            movieItemBinding.trendingRateButton.setText(String.format("%.1f" ,popularResult.getVoteAverage()));
+        }
+        private void loadName(MovieResult popularResult)
+        {
+            movieItemBinding.Moviename.setText(popularResult.getTitle());
         }
 
 

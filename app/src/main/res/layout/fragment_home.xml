@@ -37,6 +37,7 @@
                 android:text="Trending Movie"
                 android:textColor="#D6D6D6"
                 android:textSize="20sp"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/include" />
@@ -75,6 +76,7 @@
                 android:text="Trending Series"
                 android:textColor="#D6D6D6"
                 android:textSize="20sp"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/TrendingMovieCon" />
@@ -118,6 +120,7 @@
                 android:text="Populars"
                 android:textColor="#D6D6D6"
                 android:textSize="20sp"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/TrendingSeriesCon" />
@@ -154,6 +157,7 @@
                 android:text="UpComing"
                 android:textColor="#D6D6D6"
                 android:textSize="20sp"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/PopularCon" />

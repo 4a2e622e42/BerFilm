@@ -153,6 +153,7 @@ public class HomeFragment extends Fragment
                     @Override
                     public void onNext(@io.reactivex.rxjava3.annotations.NonNull Movie trending)
                     {
+                        fragmentHomeBinding.trendingMovieText.setVisibility(View.VISIBLE);
                         if(fragmentHomeBinding.trendingMovieRecycleView.getAdapter() != null)
                         {
                             trendingMovieAdopter = (TrendingMovieAdopter) fragmentHomeBinding.trendingMovieRecycleView.getAdapter();
@@ -196,6 +197,7 @@ public class HomeFragment extends Fragment
                     @Override
                     public void onNext(@io.reactivex.rxjava3.annotations.NonNull Movie popular)
                     {
+                        fragmentHomeBinding.popularText.setVisibility(View.VISIBLE);
                         if(fragmentHomeBinding.popularRecycleView.getAdapter() != null)
                         {
                             popularAdopter = (PopularAdopter) fragmentHomeBinding.popularRecycleView.getAdapter();
@@ -238,6 +240,7 @@ public class HomeFragment extends Fragment
                     @Override
                     public void onNext(@io.reactivex.rxjava3.annotations.NonNull Movie upComing)
                     {
+                        fragmentHomeBinding.upComingText.setVisibility(View.VISIBLE);
                         if(fragmentHomeBinding.upComingRecycleView.getAdapter() != null)
                         {
                             upComingAdopter = (UpComingAdopter) fragmentHomeBinding.upComingRecycleView.getAdapter();
@@ -280,6 +283,7 @@ public class HomeFragment extends Fragment
                     @Override
                     public void onNext(@io.reactivex.rxjava3.annotations.NonNull Movie trendingSeries)
                     {
+                        fragmentHomeBinding.trendingSeriesText.setVisibility(View.VISIBLE);
                         if(fragmentHomeBinding.trendingSeriesRecycleView.getAdapter() != null)
                         {
                             trendingSeriesAdopter = (TrendingSeriesAdopter) fragmentHomeBinding.trendingSeriesRecycleView.getAdapter();

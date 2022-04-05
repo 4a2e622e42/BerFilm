@@ -1,7 +1,10 @@
 package com.ash.berfilm.TrailerFragment;
 
+import static android.app.Activity.RESULT_CANCELED;
+
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
@@ -36,7 +39,6 @@ public class MovieTrailerFragment extends Fragment
     FragmentMovieTrailerBinding fragmentMovieTrailerBinding;
     List<TrailerResult> trailerResult;
 
-    ApiClient apiClient;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState)
@@ -51,7 +53,6 @@ public class MovieTrailerFragment extends Fragment
         int movieId = getArguments().getInt("movieId");
 
         getMovieTrailer(movieId);
-
 
 
 
@@ -118,5 +119,7 @@ public class MovieTrailerFragment extends Fragment
     {
         super.onDestroy();
         fragmentMovieTrailerBinding.youtubePlayerView.release();
+        SmoothBottomBar smoothBottomBar = getActivity().findViewById(R.id.smooth_bottombar);
+        smoothBottomBar.setVisibility(View.VISIBLE);
     }
 }

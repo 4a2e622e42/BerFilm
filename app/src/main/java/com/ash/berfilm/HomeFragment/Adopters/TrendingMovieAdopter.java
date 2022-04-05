@@ -87,6 +87,7 @@ public class TrendingMovieAdopter extends RecyclerView.Adapter<TrendingMovieAdop
         {
             loadPoster(moviesResult);
             loadRate(moviesResult);
+            loadName(moviesResult);
 
             movieItemBinding.executePendingBindings();
 
@@ -106,7 +107,12 @@ public class TrendingMovieAdopter extends RecyclerView.Adapter<TrendingMovieAdop
         }
         private void loadRate(MovieResult trendingResult)
         {
-            movieItemBinding.trendingRateButton.setText("TMDB: "+ trendingResult.getVoteAverage());
+            movieItemBinding.trendingRateButton.setText(String.format("%.1f" ,trendingResult.getVoteAverage()));
+        }
+
+        private void loadName(MovieResult trendingResult)
+        {
+            movieItemBinding.Moviename.setText(trendingResult.getTitle());
         }
 
 

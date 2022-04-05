@@ -108,6 +108,8 @@ public class SeriesTrailerFragment extends Fragment
     public void onDestroy()
     {
         super.onDestroy();
+        SmoothBottomBar smoothBottomBar = getActivity().findViewById(R.id.smooth_bottombar);
+        smoothBottomBar.setVisibility(View.VISIBLE);
         fragmentSeriesTrailerBinding.youtubePlayerView.release();
     }
 

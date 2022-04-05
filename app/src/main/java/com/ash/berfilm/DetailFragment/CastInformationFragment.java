@@ -1,8 +1,10 @@
 package com.ash.berfilm.DetailFragment;
 
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.RequiresApi;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
@@ -19,6 +21,8 @@ import com.ash.berfilm.Service.ApiClient;
 import com.ash.berfilm.databinding.FragmentCastInformationBinding;
 import com.bumptech.glide.Glide;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 
 import retrofit2.Call;
@@ -60,6 +64,7 @@ public class CastInformationFragment extends Fragment
 
         call.enqueue(new Callback<CastInfo>()
         {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onResponse(Call<CastInfo> call, Response<CastInfo> response)
             {
@@ -79,8 +84,16 @@ public class CastInformationFragment extends Fragment
                             .into(fragmentCastInformationBinding.picture);
                 }
 
+                //Calculate CastAge
+                LocalDate castBirthday = LocalDate.parse(castInfo.getBirthday());
+                LocalDate currentTime = LocalDate.now();
+
+                Period difference  = Period.between(castBirthday,currentTime);
+
+                int castAge = difference.getYears();
+
                 fragmentCastInformationBinding.name.setText(castInfo.getName());
-                fragmentCastInformationBinding.birthdayDate.setText(castInfo.getBirthday());
+                fragmentCastInformationBinding.birthdayDate.setText(castInfo.getBirthday()+"("+castAge+" yearsOld)");
                 fragmentCastInformationBinding.birthdayPlaceText.setText(castInfo.getPlaceOfBirth());
                 fragmentCastInformationBinding.deathDateText.setText(castInfo.getDeathday());
                 fragmentCastInformationBinding.biography.setText(castInfo.getBiography());

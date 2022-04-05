@@ -47,46 +47,46 @@ dependencies {
 
     //Api_Key = cabfea895bffe3f80d9b51460c2c2693
 
-    //-----------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------
     //Navigation component
     def nav_version = "2.3.5"
     implementation "androidx.navigation:navigation-fragment:$nav_version"
     implementation "androidx.navigation:navigation-ui:$nav_version"
 
-    //-----------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------
     //Smooth BottomBar
     def smooth_bottomBar = "1.7.9"
     implementation "com.github.ibrahimsn98:SmoothBottomBar:$smooth_bottomBar"
 
-    //-----------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------
     //DrawerLayout
     def drawer_version = "1.2.2"
     implementation "com.github.mindinventory:minavdrawer:$drawer_version"
 
-    //-----------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------
     //Dagger Hilt
     def hilt_version = "2.38.1"
     implementation      "com.google.dagger:hilt-android:$hilt_version"
     annotationProcessor "com.google.dagger:hilt-compiler:$hilt_version"
 
-    //-----------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------
     //Rounded ImageView
     def roundedImageView_version = "2.3.0"
     implementation "com.makeramen:roundedimageview:$roundedImageView_version"
 
-    //-----------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------
     //Glide
     def Glide_version = "4.13.0"
     implementation      "com.github.bumptech.glide:glide:$Glide_version"
     annotationProcessor "com.github.bumptech.glide:compiler:$Glide_version"
 
-    //-----------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------
     //Retrofit
     def retrofit_version = "2.9.0"
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
 
-    //-----------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------
     //Rxjava & RxAndroid
     def RxJava_version        = "3.1.3"
     def RxAndroid_version     = "3.0.0"
@@ -95,12 +95,12 @@ dependencies {
     implementation "io.reactivex.rxjava3:rxandroid:$RxAndroid_version"
     implementation "com.github.akarnokd:rxjava3-retrofit-adapter:$RxJavaAdopter_version"
 
-    //-----------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------
     //Alert Dialog
     def alert_version = "1.3.6"
     implementation "com.github.gabriel-TheCode:AestheticDialogs:$alert_version"
 
-    //-----------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------
     //RoomDB
     def room_version = "2.3.0"
     implementation      "androidx.room:room-runtime:$room_version"
@@ -108,26 +108,40 @@ dependencies {
     // optional - RxJava3 support for Room
     implementation      "androidx.room:room-rxjava3:$room_version"
 
-    //-----------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------
     //NoboButton
     def nobobutton_version = "1.6"
     implementation "com.ornach.nobobutton:nobobutton:$nobobutton_version"
 
-    //-----------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------
     //Blur ImageView
     def blur_version = "4.3.0"
     implementation "jp.wasabeef:glide-transformations:$blur_version"
 
-    //-----------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------
     //Circular ImageView
     def circular_version = "3.1.0"
     implementation "de.hdodenhof:circleimageview:$circular_version"
 
-    //-----------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------
     //YoutubePlayer
     def youTubePlayer_version = "11.0.1"
     implementation "com.pierfrancescosoffritti.androidyoutubeplayer:core:$youTubePlayer_version"
 
+    //----------------------------------------------------------------------------------------------
+    //SearchBox
+    def searchBox_version = "0.3"
+    implementation "com.github.iammert:MultiSearchView:$searchBox_version"
+    implementation "com.paulrybitskyi.persistentsearchview:persistentsearchview:1.1.4"
+
+
+
+    //----------------------------------------------------------------------------------------------
+    //Lottie Animation
+    def lottie_version = "5.0.3"
+    implementation "com.airbnb.android:lottie:$lottie_version"
+
+    //----------------------------------------------------------------------------------------------
 
 
 

@@ -3,6 +3,7 @@ package com.ash.berfilm.Service;
 import com.ash.berfilm.Models.CastInfo.CastInfo;
 import com.ash.berfilm.Models.Credits.Credits;
 import com.ash.berfilm.Models.MovieModel.Movie;
+import com.ash.berfilm.Models.MovieModel.MovieResult;
 import com.ash.berfilm.Models.Trailer.Trailer;
 import com.ash.berfilm.Models.Trailer.TrailerResult;
 
@@ -10,6 +11,7 @@ import io.reactivex.rxjava3.core.Observable;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface ApiClient
 {
@@ -17,6 +19,11 @@ public interface ApiClient
 
     //->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
     //Movies Api
+
+    //Get All Movie
+    @GET("discover/movie?api_key=cabfea895bffe3f80d9b51460c2c2693")
+    Call<Movie> getAllMovie(@Query("page") int page);
+
 
     //Get Trending Movie
     @GET("trending/movie/day?api_key=cabfea895bffe3f80d9b51460c2c2693")
@@ -42,10 +49,22 @@ public interface ApiClient
     @GET("movie/{id}/videos?api_key=cabfea895bffe3f80d9b51460c2c2693")
     Call<Trailer> getMovieTrailer(@Path("id") int id);
 
+    //Search Movie
+    @GET("search/movie?api_key=cabfea895bffe3f80d9b51460c2c2693")
+    Call<Movie> getSearchText(@Query("query") String text,
+                              @Query("page") int page
+                              );
+
 
 
     //->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
     //Series Api
+
+
+    //Get All Series
+    @GET("discover/tv?api_key=cabfea895bffe3f80d9b51460c2c2693")
+    Call<Movie> getAllSeries(@Query("page") int page);
+
 
     //Get Trending Series
     @GET("trending/tv/day?api_key=cabfea895bffe3f80d9b51460c2c2693")
@@ -64,6 +83,15 @@ public interface ApiClient
     //Get Series Trailer
     @GET("tv/{id}/videos?api_key=cabfea895bffe3f80d9b51460c2c2693")
     Call<Trailer> getSeriesTrailer(@Path("id") int id);
+
+
+    //Search Series
+    @GET("search/tv?api_key=cabfea895bffe3f80d9b51460c2c2693")
+    Call<Movie> getSeriesSearchText(@Query("query") String text,
+                              @Query("page") int page
+    );
+
+
 
     //->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
     //Cast Information

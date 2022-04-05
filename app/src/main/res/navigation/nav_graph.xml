@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/homeFragment">
 
@@ -17,10 +18,24 @@
     </fragment>
     <fragment
         android:id="@+id/movieFragment"
-        android:name="com.ash.berfilm.MovieFragment.MovieFragment" />
+        android:name="com.ash.berfilm.MovieFragment.MovieFragment" >
+        <action
+            android:id="@+id/action_movieFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+        <action
+            android:id="@+id/action_movieFragment_to_movieSearchFragment"
+            app:destination="@id/movieSearchFragment" />
+    </fragment>
     <fragment
         android:id="@+id/seriesFragment"
-        android:name="com.ash.berfilm.SeriesFragment.SeriesFragment" />
+        android:name="com.ash.berfilm.SeriesFragment.SeriesFragment" >
+        <action
+            android:id="@+id/action_seriesFragment_to_seriesSearchFragment"
+            app:destination="@id/seriesSearchFragment" />
+        <action
+            android:id="@+id/action_seriesFragment_to_seriesDetailFragment"
+            app:destination="@id/seriesDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/favoriteFragment"
         android:name="com.ash.berfilm.FavoriteFragment.FavoriteFragment" />
@@ -61,6 +76,20 @@
         android:name="com.ash.berfilm.TrailerFragment.MovieTrailerFragment" />
     <fragment
         android:id="@+id/seriesTrailerFragment"
-        android:name="com.ash.berfilm.TrailerFragment.SeriesTrailerFragment"
-        android:label="SeriesTrailerFragment" />
+        android:name="com.ash.berfilm.TrailerFragment.SeriesTrailerFragment" />
+    <fragment
+        android:id="@+id/movieSearchFragment"
+        android:name="com.ash.berfilm.SearchFragment.Movies.MovieSearchFragment"
+        tools:layout="@layout/fragment_movie_search">
+        <action
+            android:id="@+id/action_movieSearchFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/seriesSearchFragment"
+        android:name="com.ash.berfilm.SearchFragment.Series.SeriesSearchFragment">
+        <action
+            android:id="@+id/action_seriesSearchFragment_to_seriesDetailFragment"
+            app:destination="@id/seriesDetailFragment" />
+    </fragment>
 </navigation>

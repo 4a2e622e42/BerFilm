@@ -43,7 +43,7 @@ public class SeriesDetailFragment extends Fragment
     RecommendedSeriesAdopter recommendedSeriesAdopter;
     List<Cast> castList;
     List<Crew> crewList;
-    List<MovieResult> similarList;
+    List<MovieResult> recommendedList;
 
     @Override
     public void onAttach(@NonNull Context context)
@@ -148,8 +148,6 @@ public class SeriesDetailFragment extends Fragment
             }
         });
 
-
-
     }
 
 
@@ -168,15 +166,14 @@ public class SeriesDetailFragment extends Fragment
           @Override
           public void onResponse(Call<Movie> call, Response<Movie> response)
           {
-              similarList = response.body().getResults();
-
+              recommendedList = response.body().getResults();
 
               if(fragmentSeriesBinding.RecommendedRecyclerView.getAdapter() != null)
               {
                   recommendedSeriesAdopter = (RecommendedSeriesAdopter) fragmentSeriesBinding.RecommendedRecyclerView.getAdapter();
               }else
               {
-                  recommendedSeriesAdopter = new RecommendedSeriesAdopter(similarList);
+                  recommendedSeriesAdopter = new RecommendedSeriesAdopter(recommendedList);
                   fragmentSeriesBinding.RecommendedRecyclerView.setAdapter(recommendedSeriesAdopter);
               }
 

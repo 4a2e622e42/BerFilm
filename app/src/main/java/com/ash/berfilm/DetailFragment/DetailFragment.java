@@ -41,7 +41,7 @@ public class DetailFragment extends Fragment
     CreditsAdopter creditsAdopter;
     List<Cast> castList;
     List<Crew> crewList;
-    List<MovieResult> similarMovie;
+    List<MovieResult> recommendedMovie;
     RecommendedMovieAdopter recommendedMovieAdopter;
     @Inject
     ApiClient apiClient;
@@ -145,13 +145,13 @@ public class DetailFragment extends Fragment
         call.enqueue(new Callback<Movie>() {
             @Override
             public void onResponse(Call<Movie> call, Response<Movie> response) {
-                similarMovie = response.body().getResults();
+                recommendedMovie = response.body().getResults();
 
 
                 if (fragmentDetailBinding.RecommendedRecyclerView.getAdapter() != null) {
                     recommendedMovieAdopter = (RecommendedMovieAdopter) fragmentDetailBinding.RecommendedRecyclerView.getAdapter();
                 } else {
-                    recommendedMovieAdopter = new RecommendedMovieAdopter(similarMovie);
+                    recommendedMovieAdopter = new RecommendedMovieAdopter(recommendedMovie);
                     fragmentDetailBinding.RecommendedRecyclerView.setAdapter(recommendedMovieAdopter);
                 }
 

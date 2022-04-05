@@ -81,6 +81,7 @@ public class RecommendedMovieAdopter extends RecyclerView.Adapter<RecommendedMov
         {
             loadPoster(recommendMoviesResult);
             loadRate(recommendMoviesResult);
+            loadName(recommendMoviesResult);
 
             movieItemBinding.executePendingBindings();
 
@@ -100,7 +101,11 @@ public class RecommendedMovieAdopter extends RecyclerView.Adapter<RecommendedMov
         }
         private void loadRate(MovieResult recommendMovie)
         {
-            movieItemBinding.trendingRateButton.setText("TMDB: "+ String.format("%.1f" ,recommendMovie.getVoteAverage()));
+            movieItemBinding.trendingRateButton.setText(String.format("%.1f" ,recommendMovie.getVoteAverage()));
+        }
+        private void loadName(MovieResult recommendMovie)
+        {
+            movieItemBinding.Moviename.setText(recommendMovie.getTitle());
         }
 
 

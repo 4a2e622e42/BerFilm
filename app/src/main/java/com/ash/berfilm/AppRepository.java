@@ -6,6 +6,7 @@ import com.ash.berfilm.Models.Credits.Credits;
 import com.ash.berfilm.Models.MovieModel.Movie;
 import com.ash.berfilm.Service.ApiClient;
 
+import java.io.IOException;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
@@ -24,6 +25,11 @@ import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Scheduler;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
+import okhttp3.Request;
+import okio.Timeout;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AppRepository
 {
@@ -156,34 +162,6 @@ public class AppRepository
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public Future<Observable<Movie>> popularFutureCall()
     {
       final   ExecutorService executorService = Executors.newSingleThreadExecutor();
@@ -298,6 +276,30 @@ public class AppRepository
         return  upComingFuture;
 
     }
+
+
+    public Call<Movie> moviesCall(int page)
+    {
+       return apiClient.getAllMovie(page);
+    }
+
+    public Call<Movie> seriesCall(int page)
+    {
+        return apiClient.getAllSeries(page);
+    }
+
+
+    public Call<Movie> searchedMovie(String search,int page)
+    {
+        return apiClient.getSearchText(search,page);
+    }
+
+    public Call<Movie> searchedSeries(String search,int page)
+    {
+        return apiClient.getSeriesSearchText(search,page);
+    }
+
+
 
 
 
