@@ -93,12 +93,17 @@ public class MoviesAdopter extends RecyclerView.Adapter<MoviesAdopter.MoviesView
 
         private void loadPoster(MovieResult movieResult)
         {
-            Glide.with(movieFragItemBinding.getRoot().getContext())
-                    .load("https://image.tmdb.org/t/p/w500"+ movieResult.getPosterPath())
-                    .thumbnail(Glide.with(movieFragItemBinding.getRoot().getContext()).load(R.drawable.loading))
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    .into(movieFragItemBinding.trendingPoster);
-
+            if(movieResult.getPosterPath() != null)
+            {
+                Glide.with(movieFragItemBinding.getRoot().getContext())
+                        .load("https://image.tmdb.org/t/p/w500" + movieResult.getPosterPath())
+                        .thumbnail(Glide.with(movieFragItemBinding.getRoot().getContext()).load(R.drawable.loading))
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(movieFragItemBinding.trendingPoster);
+            }else
+            {
+                movieFragItemBinding.trendingPoster.setImageResource(R.drawable.question_mark);
+            }
 
 
         }

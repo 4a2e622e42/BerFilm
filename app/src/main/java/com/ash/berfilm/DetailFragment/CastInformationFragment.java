@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.RequiresApi;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import com.ash.berfilm.Models.Credits.Cast;
 import com.ash.berfilm.Models.MovieModel.MovieResult;
 import com.ash.berfilm.R;
 import com.ash.berfilm.Service.ApiClient;
+import com.ash.berfilm.ViewModel.AppViewModel;
 import com.ash.berfilm.databinding.FragmentCastInformationBinding;
 import com.bumptech.glide.Glide;
 
@@ -35,11 +37,14 @@ public class CastInformationFragment extends Fragment
 {
     FragmentCastInformationBinding fragmentCastInformationBinding;
     CastInfo castInfo;
+    AppViewModel appViewModel;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
 
         fragmentCastInformationBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_cast_information, container, false);
+        appViewModel = new ViewModelProvider(requireActivity()).get(AppViewModel.class);
+
 
         Cast castId = getArguments().getParcelable("credits");
 
@@ -52,17 +57,7 @@ public class CastInformationFragment extends Fragment
 
     private void setUpCastInfo(int id)
     {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://api.themoviedb.org/3/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        ApiClient apiClient = retrofit.create(ApiClient.class);
-
-        Call<CastInfo> call = apiClient.getCastInfo(id);
-
-
-        call.enqueue(new Callback<CastInfo>()
+        appViewModel.makeCastInfoCall(id).enqueue(new Callback<CastInfo>()
         {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
@@ -99,7 +94,6 @@ public class CastInformationFragment extends Fragment
                 fragmentCastInformationBinding.biography.setText(castInfo.getBiography());
 
 
-
             }
 
             @Override
@@ -108,5 +102,8 @@ public class CastInformationFragment extends Fragment
 
             }
         });
+
+
+
     }
 }

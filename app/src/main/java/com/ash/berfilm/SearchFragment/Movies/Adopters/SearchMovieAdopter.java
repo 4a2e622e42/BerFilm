@@ -92,11 +92,17 @@ public class SearchMovieAdopter extends RecyclerView.Adapter<SearchMovieAdopter.
 
         public void bind(MovieResult searchResult)
         {
+            if(searchResult.getPosterPath() != null)
+            {
             Glide.with(searchedItemBinding.getRoot().getContext())
                     .load("https://image.tmdb.org/t/p/w500"+ searchResult.getPosterPath())
                     .thumbnail(Glide.with(searchedItemBinding.getRoot().getContext()).load(R.drawable.loading))
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(searchedItemBinding.mainPoster);
+            }else
+            {
+                searchedItemBinding.mainPoster.setImageResource(R.drawable.question_mark);
+            }
 
 
             searchedItemBinding.name.setText(searchResult.getTitle());

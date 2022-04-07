@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import android.util.Log;
@@ -22,6 +23,7 @@ import com.ash.berfilm.Models.MovieModel.Movie;
 import com.ash.berfilm.Models.MovieModel.MovieResult;
 import com.ash.berfilm.R;
 import com.ash.berfilm.Service.ApiClient;
+import com.ash.berfilm.ViewModel.AppViewModel;
 import com.ash.berfilm.databinding.FragmentSereisDetailBinding;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -44,6 +46,7 @@ public class SeriesDetailFragment extends Fragment
     List<Cast> castList;
     List<Crew> crewList;
     List<MovieResult> recommendedList;
+    AppViewModel appViewModel;
 
     @Override
     public void onAttach(@NonNull Context context)
@@ -57,6 +60,7 @@ public class SeriesDetailFragment extends Fragment
 
 
         fragmentSeriesBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_sereis_detail,container,false);
+        appViewModel = new ViewModelProvider(requireActivity()).get(AppViewModel.class);
 
         MovieResult series = getArguments().getParcelable("model");
 
@@ -84,14 +88,19 @@ public class SeriesDetailFragment extends Fragment
 
     private void setupDetail(MovieResult seriesResult)
     {
+        if(seriesResult.getPosterPath() !=null || seriesResult.getBackdropPath() != null)
+        {
+            Glide.with(fragmentSeriesBinding.getRoot().getContext())
+                    .load("https://image.tmdb.org/t/p/w500" + seriesResult.getBackdropPath())
+                    .into(fragmentSeriesBinding.BackdropPoster);
 
-        Glide.with(fragmentSeriesBinding.getRoot().getContext())
-                .load("https://image.tmdb.org/t/p/w500"+ seriesResult.getBackdropPath())
-                .into(fragmentSeriesBinding.poster);
-
-        Glide.with(fragmentSeriesBinding.getRoot().getContext())
-                .load("https://image.tmdb.org/t/p/w500"+ seriesResult.getPosterPath())
-                .into(fragmentSeriesBinding.mainPoster);
+            Glide.with(fragmentSeriesBinding.getRoot().getContext())
+                    .load("https://image.tmdb.org/t/p/w500" + seriesResult.getPosterPath())
+                    .into(fragmentSeriesBinding.mainPoster);
+        }else
+        {
+            fragmentSeriesBinding.mainPoster.setImageResource(R.drawable.question_mark);
+        }
 
 
         fragmentSeriesBinding.movieName.setText(seriesResult.getName());
@@ -105,17 +114,8 @@ public class SeriesDetailFragment extends Fragment
 
     private void setUpCreditsDetail(int id)
     {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://api.themoviedb.org/3/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        ApiClient apiClient = retrofit.create(ApiClient.class);
-
-        Call<Credits> call = apiClient.getSeriesCredits(id);
-
-
-        call.enqueue(new Callback<Credits>() {
+        appViewModel.makeSeriesCreditsCall(id).enqueue(new Callback<Credits>()
+        {
             @Override
             public void onResponse(Call<Credits> call, Response<Credits> response)
             {
@@ -148,43 +148,37 @@ public class SeriesDetailFragment extends Fragment
             }
         });
 
+
     }
 
 
     private void getRecommendedSeries(int id)
     {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://api.themoviedb.org/3/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        ApiClient apiClient = retrofit.create(ApiClient.class);
+        appViewModel.makeRecommendedSeriesCall(id).enqueue(new Callback<Movie>()
+        {
+            @Override
+            public void onResponse(Call<Movie> call, Response<Movie> response)
+            {
+                recommendedList = response.body().getResults();
 
-        Call<Movie> call = apiClient.getRecommendedSeries(id);
+                if(fragmentSeriesBinding.RecommendedRecyclerView.getAdapter() != null)
+                {
+                    recommendedSeriesAdopter = (RecommendedSeriesAdopter) fragmentSeriesBinding.RecommendedRecyclerView.getAdapter();
+                }else
+                {
+                    recommendedSeriesAdopter = new RecommendedSeriesAdopter(recommendedList);
+                    fragmentSeriesBinding.RecommendedRecyclerView.setAdapter(recommendedSeriesAdopter);
+                }
+            }
 
-      call.enqueue(new Callback<Movie>()
-      {
-          @Override
-          public void onResponse(Call<Movie> call, Response<Movie> response)
-          {
-              recommendedList = response.body().getResults();
+            @Override
+            public void onFailure(Call<Movie> call, Throwable t)
+            {
 
-              if(fragmentSeriesBinding.RecommendedRecyclerView.getAdapter() != null)
-              {
-                  recommendedSeriesAdopter = (RecommendedSeriesAdopter) fragmentSeriesBinding.RecommendedRecyclerView.getAdapter();
-              }else
-              {
-                  recommendedSeriesAdopter = new RecommendedSeriesAdopter(recommendedList);
-                  fragmentSeriesBinding.RecommendedRecyclerView.setAdapter(recommendedSeriesAdopter);
-              }
+            }
+        });
 
-          }
 
-          @Override
-          public void onFailure(Call<Movie> call, Throwable t)
-          {
-
-          }
-      });
 
 
     }

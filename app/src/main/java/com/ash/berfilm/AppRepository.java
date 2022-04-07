@@ -2,6 +2,7 @@ package com.ash.berfilm;
 
 import android.os.Bundle;
 
+import com.ash.berfilm.Models.CastInfo.CastInfo;
 import com.ash.berfilm.Models.Credits.Credits;
 import com.ash.berfilm.Models.MovieModel.Movie;
 import com.ash.berfilm.Service.ApiClient;
@@ -278,6 +279,34 @@ public class AppRepository
     }
 
 
+
+    public Call<Credits> getMovieCredits(int id)
+    {
+       return   apiClient.getMovieCredits(id);
+    }
+
+    public Call<Movie> getRecommendedMovie(int id)
+    {
+        return apiClient.getRecommendedMovie(id);
+    }
+
+    public Call<CastInfo> getCastInfo(int id)
+    {
+        return apiClient.getCastInfo(id);
+    }
+
+
+    public Call<Credits> getSeriesCredits(int id)
+    {
+        return  apiClient.getSeriesCredits(id);
+    }
+
+    public Call<Movie> getRecommendedSeries(int id)
+    {
+        return apiClient.getRecommendedSeries(id);
+    }
+
+
     public Call<Movie> moviesCall(int page)
     {
        return apiClient.getAllMovie(page);
@@ -287,7 +316,6 @@ public class AppRepository
     {
         return apiClient.getAllSeries(page);
     }
-
 
     public Call<Movie> searchedMovie(String search,int page)
     {

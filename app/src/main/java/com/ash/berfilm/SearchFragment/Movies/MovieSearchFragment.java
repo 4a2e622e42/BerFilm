@@ -1,5 +1,6 @@
 package com.ash.berfilm.SearchFragment.Movies;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.core.widget.NestedScrollView;
@@ -9,10 +10,15 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ash.berfilm.Models.MovieModel.Movie;
 import com.ash.berfilm.Models.MovieModel.MovieResult;
@@ -85,30 +91,63 @@ public class MovieSearchFragment extends Fragment
 
     private void  findSearchedMovie(String searchText,int page)
     {
-        appViewModel.makeSearchCall(searchText,page).enqueue(new Callback<Movie>() {
+        appViewModel.makeSearchCall(searchText,page).enqueue(new Callback<Movie>()
+        {
             @Override
             public void onResponse(Call<Movie> call, Response<Movie> response)
             {
-                searchResult = response.body().getResults();
-                totalPage = response.body().getTotalPages();
-                fragmentMovieSearchBinding.progressBar.setVisibility(View.GONE);
-
-                fragmentMovieSearchBinding.movieCutAnimation.setVisibility(View.GONE);
-
-                if(fragmentMovieSearchBinding.searchRecyclerView.getAdapter() !=null)
+                if(response.body().getTotalPages() != 0)
                 {
-                    searchMovieAdopter = (SearchMovieAdopter) fragmentMovieSearchBinding.searchRecyclerView.getAdapter();
-                    searchMovieAdopter.addItems(searchResult);
+                    searchResult = response.body().getResults();
+                    totalPage = response.body().getTotalPages();
+                    fragmentMovieSearchBinding.progressBar.setVisibility(View.GONE);
+                    fragmentMovieSearchBinding.movieCutAnimation.setVisibility(View.GONE);
+                    fragmentMovieSearchBinding.resultTxt.setVisibility(View.VISIBLE);
+
+
+                    //Change Specific text Color with SpannableStringBuilder
+                    SpannableStringBuilder builder = new SpannableStringBuilder();
+
+                    String findTxt = "Find ";
+                    SpannableString redSpannable= new SpannableString(findTxt);
+                    redSpannable.setSpan(new ForegroundColorSpan(Color.WHITE), 0, findTxt.length(), 0);
+                    builder.append(redSpannable);
+
+                    String totalResult = String.valueOf(response.body().getTotalResults());
+                    SpannableString whiteSpannable= new SpannableString(totalResult);
+                    whiteSpannable.setSpan(new ForegroundColorSpan(Color.parseColor("#38e065")), 0, totalResult.length(), 0);
+                    builder.append(whiteSpannable);
+
+                    String movieFor = " Movie for: "+searchText;
+                    SpannableString blueSpannable = new SpannableString(movieFor);
+                    blueSpannable.setSpan(new ForegroundColorSpan(Color.WHITE), 0, movieFor.length(), 0);
+                    builder.append(blueSpannable);
+
+                    fragmentMovieSearchBinding.resultTxt.setText(builder, TextView.BufferType.SPANNABLE);
+
+
+
+
+                    if (fragmentMovieSearchBinding.searchRecyclerView.getAdapter() != null) {
+                        searchMovieAdopter = (SearchMovieAdopter) fragmentMovieSearchBinding.searchRecyclerView.getAdapter();
+                        searchMovieAdopter.addItems(searchResult);
+                    } else {
+                        searchMovieAdopter = new SearchMovieAdopter(searchResult);
+                        fragmentMovieSearchBinding.searchRecyclerView.setAdapter(searchMovieAdopter);
+                    }
+
                 }else
                 {
-                    searchMovieAdopter = new SearchMovieAdopter(searchResult);
-                    fragmentMovieSearchBinding.searchRecyclerView.setAdapter(searchMovieAdopter);
-                }
+                    fragmentMovieSearchBinding.zeroSearchTxt.setText("No Result Found For: "+searchText+"\n\n☹️");
+                    fragmentMovieSearchBinding.zeroSearchTxt.setVisibility(View.VISIBLE);
+                    fragmentMovieSearchBinding.movieCutAnimation.setVisibility(View.GONE);
 
+                }
             }
 
             @Override
-            public void onFailure(Call<Movie> call, Throwable t) {
+            public void onFailure(Call<Movie> call, Throwable t)
+            {
 
             }
         });

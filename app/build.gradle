@@ -45,7 +45,6 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
 
-    //Api_Key = cabfea895bffe3f80d9b51460c2c2693
 
     //----------------------------------------------------------------------------------------------
     //Navigation component
@@ -133,8 +132,6 @@ dependencies {
     def searchBox_version = "0.3"
     implementation "com.github.iammert:MultiSearchView:$searchBox_version"
     implementation "com.paulrybitskyi.persistentsearchview:persistentsearchview:1.1.4"
-
-
 
     //----------------------------------------------------------------------------------------------
     //Lottie Animation

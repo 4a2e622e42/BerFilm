@@ -1,5 +1,6 @@
 package com.ash.berfilm.Service;
 
+import com.ash.berfilm.BuildConfig;
 import com.ash.berfilm.Models.CastInfo.CastInfo;
 import com.ash.berfilm.Models.Credits.Credits;
 import com.ash.berfilm.Models.MovieModel.Movie;
@@ -23,7 +24,6 @@ public interface ApiClient
     //Get All Movie
     @GET("discover/movie?api_key=cabfea895bffe3f80d9b51460c2c2693")
     Call<Movie> getAllMovie(@Query("page") int page);
-
 
     //Get Trending Movie
     @GET("trending/movie/day?api_key=cabfea895bffe3f80d9b51460c2c2693")

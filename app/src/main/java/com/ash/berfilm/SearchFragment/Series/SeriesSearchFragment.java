@@ -1,5 +1,6 @@
 package com.ash.berfilm.SearchFragment.Series;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.core.widget.NestedScrollView;
@@ -7,10 +8,14 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.ash.berfilm.Models.MovieModel.Movie;
 import com.ash.berfilm.Models.MovieModel.MovieResult;
@@ -84,20 +89,52 @@ public class SeriesSearchFragment extends Fragment
             @Override
             public void onResponse(Call<Movie> call, Response<Movie> response)
             {
-                searchResult = response.body().getResults();
-                totalPage = response.body().getTotalPages();
-                fragmentSeriesSearchBinding.progressBar.setVisibility(View.GONE);
 
-                fragmentSeriesSearchBinding.movieCutAnimation.setVisibility(View.GONE);
-
-                if(fragmentSeriesSearchBinding.searchRecyclerView.getAdapter() !=null)
+                if(response.body().getTotalResults() != 0)
                 {
-                    searchSeriesAdopter = (SearchSeriesAdopter) fragmentSeriesSearchBinding.searchRecyclerView.getAdapter();
-                    searchSeriesAdopter.addItems(searchResult);
+                    searchResult = response.body().getResults();
+                    totalPage = response.body().getTotalPages();
+                    fragmentSeriesSearchBinding.progressBar.setVisibility(View.GONE);
+                    fragmentSeriesSearchBinding.movieCutAnimation.setVisibility(View.GONE);
+                    fragmentSeriesSearchBinding.resultTxt.setVisibility(View.VISIBLE);
+
+
+                    //Change Specific text Color with SpannableStringBuilder
+                    SpannableStringBuilder builder = new SpannableStringBuilder();
+
+                    String findTxt = "Find ";
+                    SpannableString redSpannable= new SpannableString(findTxt);
+                    redSpannable.setSpan(new ForegroundColorSpan(Color.WHITE), 0, findTxt.length(), 0);
+                    builder.append(redSpannable);
+
+                    String totalResult = String.valueOf(response.body().getTotalResults());
+                    SpannableString whiteSpannable= new SpannableString(totalResult);
+                    whiteSpannable.setSpan(new ForegroundColorSpan(Color.parseColor("#38e065")), 0, totalResult.length(), 0);
+                    builder.append(whiteSpannable);
+
+                    String movieFor = " Series for: "+searchText;
+                    SpannableString blueSpannable = new SpannableString(movieFor);
+                    blueSpannable.setSpan(new ForegroundColorSpan(Color.WHITE), 0, movieFor.length(), 0);
+                    builder.append(blueSpannable);
+
+
+                    fragmentSeriesSearchBinding.resultTxt.setText(builder, TextView.BufferType.SPANNABLE);
+
+
+
+                    if (fragmentSeriesSearchBinding.searchRecyclerView.getAdapter() != null) {
+                        searchSeriesAdopter = (SearchSeriesAdopter) fragmentSeriesSearchBinding.searchRecyclerView.getAdapter();
+                        searchSeriesAdopter.addItems(searchResult);
+                    } else {
+                        searchSeriesAdopter = new SearchSeriesAdopter(searchResult);
+                        fragmentSeriesSearchBinding.searchRecyclerView.setAdapter(searchSeriesAdopter);
+                    }
                 }else
                 {
-                    searchSeriesAdopter = new SearchSeriesAdopter(searchResult);
-                    fragmentSeriesSearchBinding.searchRecyclerView.setAdapter(searchSeriesAdopter);
+                    fragmentSeriesSearchBinding.zeroSearchTxt.setText("No Result Found For: "+searchText+"\n\n☹️");
+                    fragmentSeriesSearchBinding.zeroSearchTxt.setVisibility(View.VISIBLE);
+                    fragmentSeriesSearchBinding.movieCutAnimation.setVisibility(View.GONE);
+
                 }
 
             }

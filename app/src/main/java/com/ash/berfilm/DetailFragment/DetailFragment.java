@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import android.preference.PreferenceManager;
@@ -23,6 +24,7 @@ import com.ash.berfilm.Models.MovieModel.Movie;
 import com.ash.berfilm.Models.MovieModel.MovieResult;
 import com.ash.berfilm.R;
 import com.ash.berfilm.Service.ApiClient;
+import com.ash.berfilm.ViewModel.AppViewModel;
 import com.ash.berfilm.databinding.FragmentDetailBinding;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -50,14 +52,17 @@ public class DetailFragment extends Fragment
     List<Crew> crewList;
     List<MovieResult> recommendedMovie;
     RecommendedMovieAdopter recommendedMovieAdopter;
-    @Inject
-    ApiClient apiClient;
+    AppViewModel appViewModel;
+
 
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
         fragmentDetailBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_detail, container, false);
+        appViewModel = new ViewModelProvider(requireActivity()).get(AppViewModel.class);
+
         MovieResult movie = getArguments().getParcelable("model");
 
 
@@ -82,15 +87,24 @@ public class DetailFragment extends Fragment
         return fragmentDetailBinding.getRoot();
     }
 
-    private void setupDetail(MovieResult moviesResult) {
+    private void setupDetail(MovieResult moviesResult)
+    {
 
-        Glide.with(fragmentDetailBinding.getRoot().getContext())
-                .load("https://image.tmdb.org/t/p/w500" + moviesResult.getBackdropPath())
-                .into(fragmentDetailBinding.poster);
+        if(moviesResult.getPosterPath() !=null || moviesResult.getBackdropPath() !=null)
+        {
 
-        Glide.with(fragmentDetailBinding.getRoot().getContext())
-                .load("https://image.tmdb.org/t/p/w500" + moviesResult.getPosterPath())
-                .into(fragmentDetailBinding.mainPoster);
+            Glide.with(fragmentDetailBinding.getRoot().getContext())
+                    .load("https://image.tmdb.org/t/p/w500" + moviesResult.getBackdropPath())
+                    .into(fragmentDetailBinding.BackdropPoster);
+
+            Glide.with(fragmentDetailBinding.getRoot().getContext())
+                    .load("https://image.tmdb.org/t/p/w500" + moviesResult.getPosterPath())
+                    .into(fragmentDetailBinding.mainPoster);
+        }else
+        {
+            fragmentDetailBinding.mainPoster.setImageResource(R.drawable.question_mark);
+        }
+
 
 
         fragmentDetailBinding.movieName.setText(moviesResult.getTitle());
@@ -106,9 +120,7 @@ public class DetailFragment extends Fragment
     private void setUpMovieCreditsDetail(int id)
     {
 
-        Call<Credits> call = apiClient.getMovieCredits(id);
-
-        call.enqueue(new Callback<Credits>()
+        appViewModel.makeCreditsCall(id).enqueue(new Callback<Credits>()
         {
             @Override
             public void onResponse(Call<Credits> call, Response<Credits> response)
@@ -141,22 +153,26 @@ public class DetailFragment extends Fragment
             }
         });
 
+
+
+
     }
 
 
     private void getRecommendedMovie(int id)
     {
-        Call<Movie> call = apiClient.getRecommendedMovie(id);
-
-        call.enqueue(new Callback<Movie>() {
+        appViewModel.makeRecommendedMovieCall(id).enqueue(new Callback<Movie>()
+        {
             @Override
-            public void onResponse(Call<Movie> call, Response<Movie> response) {
+            public void onResponse(Call<Movie> call, Response<Movie> response)
+            {
                 recommendedMovie = response.body().getResults();
 
-
-                if (fragmentDetailBinding.RecommendedRecyclerView.getAdapter() != null) {
+                if (fragmentDetailBinding.RecommendedRecyclerView.getAdapter() != null)
+                {
                     recommendedMovieAdopter = (RecommendedMovieAdopter) fragmentDetailBinding.RecommendedRecyclerView.getAdapter();
-                } else {
+                }else
+                {
                     recommendedMovieAdopter = new RecommendedMovieAdopter(recommendedMovie);
                     fragmentDetailBinding.RecommendedRecyclerView.setAdapter(recommendedMovieAdopter);
                 }
@@ -170,16 +186,8 @@ public class DetailFragment extends Fragment
             }
         });
 
+
     }
-
-
-
-
-
-
-
-
-
 
 
 

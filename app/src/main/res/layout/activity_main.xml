@@ -61,6 +61,10 @@
           android:fitsSystemWindows="true"
           android:layout_gravity="start"
           app:menu="@menu/smooth_bottombar_menu"
+          android:background="@drawable/moviename_bg"
+          app:itemTextColor="@color/white"
+          app:itemIconTint="@color/white"
+          app:headerLayout="@layout/drawerlayoutheader"
 
           />
 

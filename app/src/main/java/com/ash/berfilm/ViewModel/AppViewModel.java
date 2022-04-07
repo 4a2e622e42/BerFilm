@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 
 import com.ash.berfilm.AppRepository;
+import com.ash.berfilm.Models.CastInfo.CastInfo;
 import com.ash.berfilm.Models.Credits.Credits;
 import com.ash.berfilm.Models.MovieModel.Movie;
 
@@ -51,6 +52,40 @@ public class AppViewModel extends ViewModel
     {
         return appRepository.upComingFutureCall();
     }
+
+
+    public Call<Credits> makeCreditsCall(int id)
+    {
+        return appRepository.getMovieCredits(id);
+    }
+
+    public Call<Movie> makeRecommendedMovieCall(int id)
+    {
+        return appRepository.getRecommendedMovie(id);
+    }
+
+    public Call<CastInfo> makeCastInfoCall(int id)
+    {
+        return appRepository.getCastInfo(id);
+    }
+
+
+    public Call<Credits> makeSeriesCreditsCall(int id)
+    {
+        return appRepository.getSeriesCredits(id);
+    }
+
+
+    public Call<Movie> makeRecommendedSeriesCall(int id)
+    {
+        return appRepository.getRecommendedSeries(id);
+    }
+
+
+
+
+
+
 
     public Call<Movie> makeAllMoviesCall(int page)
     {
