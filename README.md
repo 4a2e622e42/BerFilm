@@ -3,7 +3,7 @@
 
 BerFilm is a gorgeous client application for TMDb on Android, built using Java.
 
-
+<a target="_blank" rel="noopener noreferrer" href="https://user-images.githubusercontent.com/76472236/162781488-c36a6e8a-6a7a-4b43-9d2e-9b97322671fc.jpg"><img src="https://user-images.githubusercontent.com/76472236/162781488-c36a6e8a-6a7a-4b43-9d2e-9b97322671fc.jpg" width="20%" style="max-width: 20%;"></a>
 # Architecture and Tech-stack
 - Built on MVVM architecture pattern
 - Uses **Android Architecture Components** specifically **ViewModel**
