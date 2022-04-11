@@ -14,6 +14,19 @@
         <entry key="..\:/Users/Nima/AndroidStudioProjects/BerFilm/app/src/main/res/drawable/moviename_bg.xml" value="0.18" />
         <entry key="..\:/Users/Nima/AndroidStudioProjects/BerFilm/app/src/main/res/drawable/outlinestar_24.xml" value="0.18" />
         <entry key="..\:/Users/Nima/AndroidStudioProjects/BerFilm/app/src/main/res/drawable/oval_btn.xml" value="0.231" />
+        <entry key="..\:/Users/Nima/AndroidStudioProjects/BerFilm/app/src/main/res/layout-land/activity_main.xml" value="0.1900352733686067" />
+        <entry key="..\:/Users/Nima/AndroidStudioProjects/BerFilm/app/src/main/res/layout-land/fragment_cast_information.xml" value="0.1900352733686067" />
+        <entry key="..\:/Users/Nima/AndroidStudioProjects/BerFilm/app/src/main/res/layout-land/fragment_movie.xml" value="0.1900352733686067" />
+        <entry key="..\:/Users/Nima/AndroidStudioProjects/BerFilm/app/src/main/res/layout-land/fragment_movie_search.xml" value="0.1900352733686067" />
+        <entry key="..\:/Users/Nima/AndroidStudioProjects/BerFilm/app/src/main/res/layout-land/fragment_movie_trailer.xml" value="0.1900352733686067" />
+        <entry key="..\:/Users/Nima/AndroidStudioProjects/BerFilm/app/src/main/res/layout-land/fragment_sereis.xml" value="0.1900352733686067" />
+        <entry key="..\:/Users/Nima/AndroidStudioProjects/BerFilm/app/src/main/res/layout-land/fragment_sereis_detail.xml" value="0.1900352733686067" />
+        <entry key="..\:/Users/Nima/AndroidStudioProjects/BerFilm/app/src/main/res/layout-land/fragment_series_search.xml" value="0.1900352733686067" />
+        <entry key="..\:/Users/Nima/AndroidStudioProjects/BerFilm/app/src/main/res/layout-land/fragment_series_trailer.xml" value="0.1900352733686067" />
+        <entry key="..\:/Users/Nima/AndroidStudioProjects/BerFilm/app/src/main/res/layout-land/searched_item.xml" value="0.1900352733686067" />
+        <entry key="..\:/Users/Nima/AndroidStudioProjects/BerFilm/app/src/main/res/layout-sw600dp/fragment_cast_information.xml" value="0.168359375" />
+        <entry key="..\:/Users/Nima/AndroidStudioProjects/BerFilm/app/src/main/res/layout-sw600dp/fragment_detail.xml" value="0.168359375" />
+        <entry key="..\:/Users/Nima/AndroidStudioProjects/BerFilm/app/src/main/res/layout-sw600dp/movie_item.xml" value="0.168359375" />
         <entry key="..\:/Users/Nima/AndroidStudioProjects/BerFilm/app/src/main/res/layout/activity_main.xml" value="0.18" />
         <entry key="..\:/Users/Nima/AndroidStudioProjects/BerFilm/app/src/main/res/layout/appbar_layout.xml" value="0.1686310063463282" />
         <entry key="..\:/Users/Nima/AndroidStudioProjects/BerFilm/app/src/main/res/layout/cast_item.xml" value="0.1" />
@@ -34,7 +47,7 @@
         <entry key="..\:/Users/Nima/AndroidStudioProjects/BerFilm/app/src/main/res/layout/item.xml" value="0.16636446056210336" />
         <entry key="..\:/Users/Nima/AndroidStudioProjects/BerFilm/app/src/main/res/layout/movei_fragment_items.xml" value="0.11509562841530055" />
         <entry key="..\:/Users/Nima/AndroidStudioProjects/BerFilm/app/src/main/res/layout/movie_frag_item.xml" value="0.5" />
-        <entry key="..\:/Users/Nima/AndroidStudioProjects/BerFilm/app/src/main/res/layout/movie_item.xml" value="0.5" />
+        <entry key="..\:/Users/Nima/AndroidStudioProjects/BerFilm/app/src/main/res/layout/movie_item.xml" value="0.18" />
         <entry key="..\:/Users/Nima/AndroidStudioProjects/BerFilm/app/src/main/res/layout/searched_item.xml" value="0.1417763157894737" />
       </map>
     </option>

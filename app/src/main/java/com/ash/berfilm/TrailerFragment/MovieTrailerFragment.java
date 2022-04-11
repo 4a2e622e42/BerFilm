@@ -22,6 +22,7 @@ import com.ash.berfilm.Service.ApiClient;
 import com.ash.berfilm.databinding.FragmentMovieTrailerBinding;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerFullScreenListener;
 
 import java.util.List;
 
@@ -53,7 +54,6 @@ public class MovieTrailerFragment extends Fragment
         int movieId = getArguments().getInt("movieId");
 
         getMovieTrailer(movieId);
-
 
 
 

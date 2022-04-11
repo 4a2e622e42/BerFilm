@@ -48,10 +48,12 @@ import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.iammert.library.ui.multisearchviewlib.MultiSearchView;
 import com.paulrybitskyi.persistentsearchview.PersistentSearchView;
+import com.paulrybitskyi.persistentsearchview.adapters.model.SuggestionItem;
 import com.paulrybitskyi.persistentsearchview.listeners.OnSearchConfirmedListener;
 import com.paulrybitskyi.persistentsearchview.listeners.OnSearchQueryChangeListener;
 import com.paulrybitskyi.persistentsearchview.utils.VoiceRecognitionDelegate;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.Future;
