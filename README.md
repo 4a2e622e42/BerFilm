@@ -23,12 +23,20 @@ BerFilm is a gorgeous client application for TMDb on Android, built using Java.
 - Search for movies and series
 - View movie and series details like release date, rating, overview, movie trailer and cast right inside the app
 - Recommend Movies/Series in Detail
+- Watch Movie/Series Trailer
 
 # Screenshots
 
-<a target="_blank" rel="noopener noreferrer" href="https://user-images.githubusercontent.com/76472236/162168921-9c11c72e-1e22-4799-8de6-48e82d9b92b7.jpg"><img src="https://user-images.githubusercontent.com/76472236/162168921-9c11c72e-1e22-4799-8de6-48e82d9b92b7.jpg" width="45%" style="max-width: 100%;"></a>
-<a target="_blank" rel="noopener noreferrer" href="(https://user-images.githubusercontent.com/76472236/162169139-6aa6cd2b-30dc-4c12-a339-a875a1480654.jpg"><img src="https://user-images.githubusercontent.com/76472236/162169139-6aa6cd2b-30dc-4c12-a339-a875a1480654.jpg" width="45%" style="max-width: 100%;"></a>
-<a target="_blank" rel="noopener noreferrer" href="(https://user-images.githubusercontent.com/76472236/162169622-e4c3c93f-9c0d-4407-b40f-e4d62af6cf59.jpg"><img src="https://user-images.githubusercontent.com/76472236/162169622-e4c3c93f-9c0d-4407-b40f-e4d62af6cf59.jpg" width="45%" style="max-width: 100%;"></a>
-<a target="_blank" rel="noopener noreferrer" href="https://user-images.githubusercontent.com/76472236/162169451-b91fc1e2-579a-44e0-9733-91d08b431e59.jpg"><img src="https://user-images.githubusercontent.com/76472236/162169451-b91fc1e2-579a-44e0-9733-91d08b431e59.jpg" width="45%" style="max-width: 100%;"></a>
-<a target="_blank" rel="noopener noreferrer" href="https://user-images.githubusercontent.com/76472236/162220459-2329a744-b53d-4951-939e-a836a7f3a1fd.jpg"><img src="https://user-images.githubusercontent.com/76472236/162220459-2329a744-b53d-4951-939e-a836a7f3a1fd.jpg" width="45%" style="max-width: 100%;"></a>
-<a target="_blank" rel="noopener noreferrer" href="https://user-images.githubusercontent.com/76472236/162220732-c9b4ca91-4db1-4fb5-81c8-86a685268d6e.jpg"><img src="https://user-images.githubusercontent.com/76472236/162220732-c9b4ca91-4db1-4fb5-81c8-86a685268d6e.jpg" width="45%" style="max-width: 100%;"></a>
+<a target="_blank" rel="noopener noreferrer" href="https://user-images.githubusercontent.com/76472236/162749216-9fd0803f-1a76-4343-b96b-03046a2d1f7c.jpg"><img src="https://user-images.githubusercontent.com/76472236/162749216-9fd0803f-1a76-4343-b96b-03046a2d1f7c.jpg" width="45%" style="max-width: 100%;"></a>
+<a target="_blank" rel="noopener noreferrer" href="https://user-images.githubusercontent.com/76472236/162751357-227c227b-f6cf-4481-a2dc-74380f962797.jpg"><img src="https://user-images.githubusercontent.com/76472236/162751357-227c227b-f6cf-4481-a2dc-74380f962797.jpg" width="45%" style="max-width: 100%;"></a>
+<a target="_blank" rel="noopener noreferrer" href="https://user-images.githubusercontent.com/76472236/162752127-884bfd7e-88d8-4650-8839-6463652252a0.jpg"><img src="https://user-images.githubusercontent.com/76472236/162752127-884bfd7e-88d8-4650-8839-6463652252a0.jpg" width="45%" style="max-width: 100%;"></a>
+<a target="_blank" rel="noopener noreferrer" href="https://user-images.githubusercontent.com/76472236/162752546-43a4eb16-6d03-4d6a-abe2-4ca64d8719ad.jpg"><img src="https://user-images.githubusercontent.com/76472236/162752546-43a4eb16-6d03-4d6a-abe2-4ca64d8719ad.jpg" width="45%" style="max-width: 100%;"></a>
+<a target="_blank" rel="noopener noreferrer" href="https://user-images.githubusercontent.com/76472236/162752833-c273d2da-b60d-4a44-9169-1519939252d4.jpg"><img src="https://user-images.githubusercontent.com/76472236/162752833-c273d2da-b60d-4a44-9169-1519939252d4.jpg" width="45%" style="max-width: 100%;"></a>
+
+
+
+
+# ApiKey
+Add your ApiKey to **/app/src/main/java/com/ash/berfilm/Service/ApiClient.java**
+
+
